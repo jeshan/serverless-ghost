@@ -1,0 +1,16 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "plugins": [
+        "ghost"
+    ],
+    "extends": [
+        "plugin:ghost/node"
+    ],
+    "rules": {
+        "no-var": "error",
+        "one-var": [2, "never"]
+    }
+}

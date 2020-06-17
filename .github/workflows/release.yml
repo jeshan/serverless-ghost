@@ -1,0 +1,22 @@
+name: Release
+on:
+  push:
+    tags:
+      - '*'
+jobs:
+  automate:
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      FORCE_COLOR: 1
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: true
+      - run: yarn
+      - run: grunt release --skip-tests
+      - run: npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+      - run: npm publish
+      - uses: tryghost/action-ghost-release@master
