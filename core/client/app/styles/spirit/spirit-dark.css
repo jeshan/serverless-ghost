@@ -1,0 +1,6 @@
+@import "./spirit.css";
+
+/* Import dark theme overrides */
+@import "./_colors-dark.css";
+@import "./_koenig-dark.css";
+@import "./_custom-styles-dark.css";

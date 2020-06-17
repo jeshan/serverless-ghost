@@ -1,0 +1,447 @@
+/* Global
+/* ----------------------------------------- */
+
+/* Members avatar
+/* ----------------------------------------- */
+.gh-member-gravatar {
+    position: relative;
+    overflow: hidden;
+    border-radius: 100%;
+    box-shadow: 0 0 0 2px var(--white);
+}
+
+.gh-member-detail-avatar {
+    box-shadow: none;
+}
+
+.gh-member-avatar-label {
+    display: block;
+    color: #fff;
+}
+
+.gh-member-avatar-image {
+    display: block;
+    position: absolute;
+    display: block;
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    bottom: -1px;
+    left: -1px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    opacity: 1.0;
+    max-width: unset;
+}
+
+.gh-member-initials {
+    border: none;
+}
+
+.gh-member-detail-avatar .gh-member-initials {
+    box-shadow: 0 0 0 1px var(--main-bg-color);
+}
+
+/* Members list
+/* ----------------------------------------- */
+
+.members-list {
+    table-layout: fixed;
+}
+
+.members-header .view-actions input.gh-members-list-searchfield {
+    min-width: 220px;
+    padding-left: 30px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.members-header .view-actions .gh-input-search-icon {
+    width: 14px;
+    height: 14px;
+    top: 10px;
+    left: 10px;
+}
+
+.gh-members-list-searchfield.active {
+    border-color: #3eb0ef;
+    box-shadow: inset 0 0 0 1px #3eb0ef;
+}
+
+p.gh-members-list-email {
+    margin: -2px 0 -1px;
+}
+
+.gh-members-list-subscribed-at {
+    margin-right: -8px;
+    padding-right: 0;
+}
+
+.gh-members-placeholder {
+    width: 118px;
+    margin: -30px 0 15px;
+}
+
+.gh-member-list-avatar {
+    font-size: 1.65rem;
+    font-weight: 500;
+    line-height: 0;
+    letter-spacing: -0.6px;
+}
+
+.gh-member-actions-menu {
+    top: calc(100% + 6px);
+    left: auto;
+    right: 10px;
+}
+
+.gh-member-actions-menu.fade-out {
+    animation-duration: .001s;
+    pointer-events: none;
+}
+
+.member-link-copied svg {
+    margin-right: 4px;
+}
+
+.members-header .gh-members-header-search {
+    margin-right: 12px;
+    border-right: 1px solid var(--lightgrey-d2);
+    padding-right: 12px;
+}
+
+.gh-members-chart-header {
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    background: var(--whitegrey-l2);
+    border-bottom: var(--lightgrey) 1px solid;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.gh-members-chart-header .gh-contentfilter {
+    margin: 0 0 0 20px;
+    height: 16px;
+}
+
+.gh-members-chart-header .gh-contentfilter-type .gh-contentfilter-menu-trigger {
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.05);
+    height: 16px;
+    padding: 0 8px;
+}
+
+.gh-members-chart-dropdown {
+    margin-left: -103px;
+}
+
+.gh-members-chart-container {
+    height: 186px;
+    margin: 0;
+    padding: 4px 7px 11px 2px;
+}
+
+.gh-members-chart-summary {
+    flex-basis: 24%;
+    min-width: 244px;
+}
+
+.gh-members-chart-summary-data {
+    font-size: 3.6rem;
+    color: var(--darkgrey);
+    line-height: 4.0rem;
+}
+
+.members-header .gh-contentfilter {
+    margin-right: 0;
+}
+
+.members-header .gh-contentfilter-tag .gh-contentfilter-menu-trigger {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+.gh-members-not-found-for-label {
+
+}
+
+/* .members-header .gh-member */
+
+@media (max-width: 1100px) {
+    .gh-members-chart-summary-data {
+        font-size: 2.8rem;
+        line-height: 2.8rem;
+    }
+
+    .gh-members-chart-container {
+        height: 166px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .members-list .gh-list-header, .gh-list-hidecell-m {
+        display: table-cell;
+    }
+
+    .gh-members-chart-wrapper {
+        flex-direction: column;
+    }
+
+    .gh-members-chart-box {
+        margin: 0 0 24px;
+    }
+}
+
+@media (min-width: 440px) and (max-width: 1000px) {
+    .gh-members-chart-summary {
+        flex-direction: row;
+    }
+
+    .gh-members-chart-summary div {
+        flex-basis: 33%;
+        border-bottom: none;
+        justify-content: flex-start;
+    }
+
+    .gh-members-chart-summary > div:nth-of-type(1),
+    .gh-members-chart-summary > div:nth-of-type(2) {
+        border-right: 1px solid var(--whitegrey);
+    }
+}
+
+@media (max-width: 900px) {
+    .members-list .gh-list-header, .gh-list-hidecell-m {
+        display: none;
+    }
+
+    .gh-members-list-item {
+        display: flex;
+        position: relative;
+        flex-wrap: wrap;
+        border-bottom: 1px solid var(--lightgrey);
+        margin: 0;
+    }
+
+    .gh-members-list-item:nth-of-type(2) {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .gh-members-list-item .gh-list-data {
+        border-top: none !important;
+    }
+
+    .gh-members-list-item:hover {
+        background: var(--whitegrey-l2);
+    }
+
+    .gh-members-list-item:hover .gh-list-data {
+        background: none !important;
+    }
+
+    .gh-members-list-basic {
+        display: block;
+        flex: 1 1 100%;
+    }
+
+    .gh-members-list-subscribed-at {
+        display: inline-block;
+        width: auto;
+        padding: 0 0 16px 4px;
+        margin-top: -16px;
+        font-size: 1.2rem;
+    }
+
+    .gh-members-list-chevron {
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    .gh-list h3.gh-members-name-noname {
+        margin-top: -14px;
+    }
+
+    .gh-members-subscribed-noname {
+        display: inline-block;
+        margin-top: -32px;
+        padding-bottom: 16px;
+    }
+
+    .gh-members-list-geolocation {
+        display: inline-block;
+        padding: 0 0 0 64px;
+        margin-top: -16px;
+        width: auto;
+    }
+
+    .gh-members-list-geolocation::after {
+        content: "–";
+    }
+
+    .gh-members-geolocation-noname {
+        margin-top: -32px;
+        padding-bottom: 16px;
+    }
+}
+
+@media (max-width: 450px) {
+    .members-header {
+        justify-content: flex-end;
+        min-height: 120px;
+    }
+
+    .members-header .gh-canvas-title {
+        position: absolute;
+        top: 29px;
+        left: 21px;
+    }
+
+    .members-header .view-actions {
+        margin-top: 62px;
+        width: 100%;
+    }
+
+    .members-header .view-actions .gh-members-header-search {
+        width: 100%;
+    }
+
+    .view-actions input.gh-members-list-searchfield {
+        min-width: 0;
+    }
+}
+
+
+/* Member details
+/* ----------------------------------------- */
+
+label[for="member-description"] + p {
+    margin: 0 0 4px;
+}
+
+textarea.gh-member-details-textarea {
+    max-width: 100%;
+    min-height: 50px;
+    height: 98px;
+}
+
+.gh-member-info-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.gh-member-stripe-info {
+    border-bottom: 1px solid var(--whitegrey);
+}
+
+.gh-member-stripe-info:last-of-type {
+    border-bottom: none;
+}
+
+.gh-member-stripe-table {
+    width: 100%;
+    margin: 10px 0 12px;
+}
+
+.gh-member-stripe-table td {
+    vertical-align: top;
+    font-size: 1.3rem;
+    padding: 5px 12px 5px 0;
+}
+
+.gh-member-stripe-label {
+    color: var(--midgrey-d1);
+    white-space: nowrap;
+    width: 200px;
+}
+
+.gh-members-subscribed-checkbox,
+.gh-members-comped-checkbox {
+    max-width: 100%;
+}
+
+.gh-new-member-avatar {
+    background: var(--midlightgrey-l1);
+}
+
+.gh-member-cancels-on-label {
+    display: inline-block;
+    background: var(--lightgrey-d1);
+    border-radius: 4px;
+    padding: 1px 6px;
+    margin: -2px 0 -2px -6px;
+    color: var(--darkgrey);
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.gh-member-stripe-status {
+    text-transform: capitalize;
+}
+
+.gh-member-settings-primary {
+    flex-basis: 740px;
+}
+
+.gh-member-settings-secondary {
+    flex-basis: 408px;
+}
+
+/* Import modal
+/* ---------------------------------------------------------- */
+
+.gh-members-import-uploader {
+    width: 100%;
+    min-height: 180px;
+}
+
+.gh-members-import-results {
+    margin: 0;
+    width: auto;
+}
+
+.gh-members-import-file {
+    min-height: 180px;
+}
+
+.gh-members-upload-errorcontainer {
+    border: 1px solid var(--whitegrey);
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 20px;
+}
+
+.gh-members-upload-warningmessage {
+    border-left: 4px solid var(--yellow);
+}
+
+.gh-members-upload-errormessage {
+    border-left: 4px solid var(--red);
+}
+
+.gh-members-import-errorheading {
+    font-size: 1.4rem;
+    line-height: 1.55em;
+    margin-top: 2px;
+}
+
+p.gh-members-import-errordetailtext {
+    font-size: 1.3rem;
+    line-height: 1.4em;
+    color: var(--midgrey);
+}
+
+.gh-members-import-errordetailtext:first-of-type {
+    border-top: 1px solid var(--lightgrey);
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+.gh-members-import-errordetailtext:not(:last-of-type) {
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+}

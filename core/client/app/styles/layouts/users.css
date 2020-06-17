@@ -1,0 +1,198 @@
+/* Users /ghost/settings/users/
+/* ---------------------------------------------------------- */
+
+.gh-invited-users .apps-grid-cell:hover {
+    background: none;
+}
+
+.gh-invited-users .apps-grid-cell:hover + .apps-grid-cell .apps-card-app,
+.gh-invited-users .apps-grid-cell:hover .apps-card-app {
+    border-color: var(--lightgrey);
+    padding-left: 0;
+    margin-left: 16px;
+}
+
+.gh-invited-users .gh-badge {
+    text-transform: none;
+}
+
+@media (max-width: 500px) {
+    .gh-invited-users .apps-card-meta {
+        max-width: 165px;
+    }
+
+    .gh-invited-users .apps-card-app-title {
+        width: 200px;
+    }
+
+    .gh-invited-users .apps-card-app-desc {
+        max-height: none;
+        display: block;
+    }
+
+    .gh-invited-users .apps-configured {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .gh-invited-users .apps-configured a {
+        margin-bottom: 7px
+    }
+}
+
+
+.user-list-item-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-right: 12px;
+    width: 36px;
+    height: 36px;
+    background: #E5EFF5;
+    border-radius: 100%;
+    color: transparent;
+    font-size: 0;
+}
+
+.user-list-item-icon svg {
+    fill: var(--midgrey);
+    height: 14px;
+    width: auto;
+}
+
+.user-list-item-figure {
+    position: relative;
+    display: block;
+    width: 36px;
+    height: 36px;
+    margin-right: 12px;
+    margin-left: 3px;
+    background-position: center center;
+    background-size: cover;
+    border-radius: 100%;
+    box-shadow: var(--white) 0 0 0 3px;
+}
+
+.user-list-item-figure img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+.gh-team .apps-configured {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.gh-team .apps-configured .gh-badge {
+    margin-left: 15px;
+}
+
+@media (max-width: 500px) {
+    .gh-active-users .apps-configured {
+        flex-wrap: nowrap;
+    }
+
+    .gh-active-users .gh-badge:first-child {
+        margin-left: 0;
+    }
+}
+
+/* Role Labels
+/* ---------------------------------------------------------- */
+
+.gh-badge.owner {
+    background: var(--darkgrey);
+    text-transform: uppercase;
+    color: var(--white);
+}
+
+.gh-badge.administrator {
+    background: var(--red);
+    text-transform: uppercase;
+    color: var(--white);
+}
+
+.gh-badge.editor {
+    background: var(--blue);
+    text-transform: uppercase;
+    color: var(--white);
+}
+
+.gh-badge.author {
+    border: color-mod(var(--lightgrey) blackness(+8%)) 1px solid;
+    color: color-mod(var(--midgrey) l(+5%));
+    background: #fff;
+    text-transform: uppercase;
+}
+
+.gh-badge.suspended {
+    font-size: 13px;
+    margin-left: 16px;
+    margin-top: 1px;
+    padding: 6px 8px;
+    border: color-mod(var(--midlightgrey) l(+10%)) 1px solid;
+    background: transparent;
+    color: var(--midgrey);
+}
+
+
+/* User invitation modal
+/* ---------------------------------------------------------- */
+
+.invite-new-user .modal-content {
+    width: 100%;
+    max-width: 600px;
+}
+
+.invite-new-user .form-group {
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.invite-new-user .form-group label {
+    position: static;
+    display: block;
+    text-align: left;
+}
+
+.invite-new-user .form-group:nth-of-type(1) {
+    float: left;
+    width: 60%;
+}
+
+@media (max-width: 500px) {
+    .invite-new-user .form-group:nth-of-type(1) {
+        float: none;
+        width: 100%;
+    }
+}
+
+.invite-new-user .form-group:nth-of-type(2) {
+    float: left;
+    margin-left: 10px;
+    width: 35%;
+}
+
+@media (max-width: 500px) {
+    .invite-new-user .form-group:nth-of-type(2) {
+        float: none;
+        margin-top: 10px;
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+.invite-new-user .form-group input {
+    width: 100%;
+}
+
+.invite-new-user .gh-btn-green {
+    margin: 0;
+    width: 100%;
+}

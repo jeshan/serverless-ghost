@@ -1,0 +1,41 @@
+# This test uses a single version of Node.js, the one installed by
+# default on GitHub Actions. You can see this here:
+#
+# https://github.com/actions/virtual-environments/blob/master/images/linux/Ubuntu1804-README.md
+#
+# They may update it when a new LTS is released, so it's important
+# to keep this in mind.
+
+name: Test Suite
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - 'renovate/*'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && !startsWith(github.head_ref, 'renovate/'))
+    strategy:
+      matrix:
+        browser: [ 'Firefox', 'Chrome' ]
+    name: ${{ matrix.browser }}
+    env:
+      MOZ_HEADLESS: 1
+      JOBS: 1
+      CI: true
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn
+      - run: yarn lint:js
+      - run: yarn test
+        env:
+          BROWSER: ${{ matrix.browser }}
+
+      - uses: daniellockyer/action-slack-build@master
+        if: failure() && github.event_name == 'push' && github.ref == 'refs/heads/master'
+        with:
+          status: ${{ job.status }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

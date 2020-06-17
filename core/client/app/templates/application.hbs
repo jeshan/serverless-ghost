@@ -1,0 +1,37 @@
+<GhApp @showSettingsMenu={{this.ui.showSettingsMenu}}>
+    <GhSkipLink @anchor=".gh-main">Skip to main content</GhSkipLink>
+
+    <GhAlerts />
+
+    <div class="gh-viewport {{if this.ui.showSettingsMenu 'settings-menu-expanded'}} {{if this.ui.showMobileMenu 'mobile-menu-expanded'}}">
+        {{#if this.showNavMenu}}
+            <GhNavMenu @icon={{this.settings.settledIcon}} />
+        {{/if}}
+
+        <main class="gh-main {{this.ui.mainClass}}" role="main">
+            {{outlet}}
+        </main>
+
+        <GhNotifications />
+
+        <GhContentCover />
+
+        <GhMobileNavBar />
+
+        <GhWhatsNew />
+    </div>{{!gh-viewport}}
+
+    {{#if this.customViews.showFormModal}}
+        <GhFullscreenModal
+            @modal="custom-view-form"
+            @close={{this.customViews.toggleFormModal}}
+            @modifier="action narrow"
+        />
+    {{/if}}
+
+    {{#if this.showBilling}}
+        <GhBillingModal />
+    {{/if}}
+</GhApp>
+
+<EmberLoadRemover />

@@ -1,0 +1,9 @@
+<LinkTo @route="editor.new" @model="post" data-test-mobile-nav="new-post">{{svg-jar "pen"}}New post</LinkTo>
+{{#if (eq this.router.currentRouteName "posts")}}
+    <LinkTo @route="posts" @query={{hash type=null}} @classNames="active" data-test-mobile-nav="posts">{{svg-jar "content"}}Posts</LinkTo>
+{{else}}
+    <LinkTo @route="posts">{{svg-jar "content" data-test-mobile-nav="posts"}}Posts</LinkTo>
+{{/if}}
+<LinkTo @route="staff" @classNames="gh-nav-main-users" data-test-mobile-nav="staff">{{svg-jar "account-group"}}Staff</LinkTo>
+<div role="button" class="gh-mobile-nav-bar-more" {{action "openMobileMenu" target=this.ui data-test-mobile-nav="more"}}>{{svg-jar "icon" class="icon-gh"}}More</div>
+{{yield}}

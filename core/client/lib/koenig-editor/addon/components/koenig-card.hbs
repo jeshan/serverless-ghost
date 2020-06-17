@@ -1,0 +1,40 @@
+{{#if this.icon}}
+    <StickyElement @top={{this.iconTop}} @bottom={{36}}>
+        {{svg-jar this.icon class=this.iconClass}}
+    </StickyElement>
+{{/if}}
+
+{{yield (hash
+    CaptionInput=(component "koenig-caption-input"
+        captureInput=this.isSelected
+        addParagraphAfterCard=this.addParagraphAfterCard
+        moveCursorToPrevSection=this.moveCursorToPrevSection
+        moveCursorToNextSection=this.moveCursorToNextSection
+    )
+    AltInput=(component "koenig-alt-input"
+        addParagraphAfterCard=this.addParagraphAfterCard
+        moveCursorToPrevSection=this.moveCursorToPrevSection
+        moveCursorToNextSection=this.moveCursorToNextSection
+    )
+)}}
+
+{{#if this.toolbar}}
+    <KgActionBar @class="absolute" @style={{this.toolbarStyle}} @isVisible={{this.shouldShowToolbar}}>
+        {{#each this.toolbar.items as |item|}}
+            {{#if item.divider}}
+                <li class="ma0 kg-action-bar-divider bg-darkgrey-d2 h5" role="separator"></li>
+            {{else}}
+                <li class="ma0 lh-solid">
+                    <button
+                        type="button"
+                        title={{item.title}}
+                        class="dib dim-lite link h9 w9 nudge-top--1 justify-center {{item.buttonClass}}"
+                        onmousedown={{action item.action}}
+                    >
+                        {{#if item.icon}}{{svg-jar item.icon class=(concat item.iconClass (if item.text " mr2") " w4 h4")}} {{/if}}{{item.text}}
+                    </button>
+                </li>
+            {{/if}}
+        {{/each}}
+    </KgActionBar>
+{{/if}}
