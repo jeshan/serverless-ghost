@@ -41,12 +41,14 @@ Resources:
       CodeUri: ./src
       Environment:
         Variables:
+          DEBUG: '*'
           database__client: mysql
           paths__contentPath: !Ref ContentPath
           database__connection__host: !GetAtt Db.Endpoint.Address
           database__connection__database: !Ref DatabaseName
           database__connection__user: !Ref DatabaseUser
           database__connection__password: !Ref DatabasePassword
+          logging__level: debug
           paths__appRoot: /var/task
           url: !Sub https://${DomainName}
       FileSystemConfigs:
@@ -156,6 +158,7 @@ Resources:
     Properties:
       DatabaseName: !Ref DatabaseName
       DBSubnetGroupName: !Ref SubnetGroup
+      EnableHttpEndpoint: true
       Engine: aurora
       EngineMode: serverless
       MasterUsername: !Ref DatabaseUser
