@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  ghost:
+    image: ghost:3.20.1
+    environment:
+      DEBUG: '*'
+      logging__level: debug
+    ports:
+      - 80:80
+      - 2368:2368
+      - 4200:4200
