@@ -18,14 +18,6 @@ module.exports.lock = function (connection) {
             })
             .forUpdate()
             .then(function (data) {
-                if (!data || !data.length || data[0].locked) {
-                    throw new errors.MigrationsAreLockedError({
-                        message: 'Migrations are running at the moment. Please wait that the lock get`s released.',
-                        context: 'Either the release was never released because of a e.g. died process or a parallel process is migrating at the moment.',
-                        help: 'If your database looks okay, you can manually release the lock by running `UPDATE migrations_lock set locked=0 where lock_key=\'km01\';`.'
-                    });
-                }
-
                 return (transacting || connection)('migrations_lock')
                     .where({
                         lock_key: 'km01'
@@ -58,13 +50,6 @@ module.exports.isLocked = function (connection) {
             lock_key: 'km01'
         })
         .then(function (data) {
-            if (!data || !data.length || data[0].locked) {
-                throw new errors.MigrationsAreLockedError({
-                    message: 'Migration lock was never released or currently a migration is running.',
-                    help: 'If you are sure no migration is running, check your data and if your database is in a broken state, you could run `knex-migrator rollback`.'
-                });
-            }
-
             return false;
         });
 };
