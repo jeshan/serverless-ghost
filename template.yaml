@@ -1,0 +1,175 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  ContentPath:
+    Type: String
+    Default: /mnt/content
+    Description: the default is quite reasonable
+  DatabaseName:
+    Type: String
+    Default: ghost
+    Description: database to create in the rds cluster
+  DatabasePassword:
+    Type: String
+    Default: password12345
+    NoEcho: true
+  DatabaseUser:
+    Type: String
+    Default: dbadmin
+  DomainName:
+    Type: String
+  Memory:
+    Type: Number
+    MinValue: 1024
+    MaxValue: 3008
+    Default: 1024
+    Description: 1024 MB is a reasonable balance between performance and price. Less than that will result in poor cold starts.
+  Sg:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Security group for the VPC resources
+  Subnets:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: subnets where to put your RDS cluster. (Will use the first one as EFS location)
+
+Resources:
+  Fn:
+    Type: AWS::Serverless::Function
+    DependsOn:
+      - MountTarget1
+    Properties:
+      CodeUri: ./src
+      Environment:
+        Variables:
+          database__client: mysql
+          paths__contentPath: !Ref ContentPath
+          database__connection__host: !GetAtt Db.Endpoint.Address
+          database__connection__database: !Ref DatabaseName
+          database__connection__user: !Ref DatabaseUser
+          database__connection__password: !Ref DatabasePassword
+          paths__appRoot: /var/task
+          url: !Sub https://${DomainName}
+      FileSystemConfigs:
+        - Arn: !GetAtt ContentAp.Arn
+          LocalMountPath: !Ref ContentPath
+      Handler: index.handler
+      Layers:
+        - !Ref NodeModules
+      MemorySize: !Ref Memory
+      Runtime: nodejs12.x
+      VpcConfig:
+        SecurityGroupIds:
+          - !Ref Sg
+        SubnetIds: [!Select [0, !Ref Subnets]]
+      Timeout: 120
+
+  RootPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      FunctionName: !Ref Fn
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Api}/*/*/
+
+  ProxyPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      FunctionName: !Ref Fn
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${Api}/*/*/*
+
+  Api:
+    Type: AWS::Serverless::Api
+    Properties:
+      DefinitionBody:
+        info:
+          version: '1.0'
+          title: !Ref AWS::StackName
+        paths:
+          /{proxy+}:
+            x-amazon-apigateway-any-method:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${Fn.Arn}/invocations'
+          /:
+            x-amazon-apigateway-any-method:
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${Fn.Arn}/invocations'
+        swagger: '2.0'
+      Domain:
+        CertificateArn: !Ref Certificate
+        DomainName: !Ref DomainName
+      StageName: Prod
+
+  NodeModules:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      CompatibleRuntimes:
+        - nodejs12.x
+      ContentUri: ./node-modules
+
+  Certificate:
+    Properties:
+      DomainName: !Sub '*.${DomainName}'
+      DomainValidationOptions:
+        - DomainName: !Sub '*.${DomainName}'
+          ValidationDomain: !Sub '*.${DomainName}'
+        - DomainName: !Ref DomainName
+          ValidationDomain: !Ref DomainName
+      SubjectAlternativeNames:
+        - !Sub '*.${DomainName}'
+        - !Ref DomainName
+      ValidationMethod: DNS
+    Type: AWS::CertificateManager::Certificate
+
+  Disk:
+    Type: AWS::EFS::FileSystem
+
+  ContentAp:
+    Type: AWS::EFS::AccessPoint
+    Properties:
+      FileSystemId: !Ref Disk
+      PosixUser:
+        Gid: '1000'
+        Uid: '1000'
+      RootDirectory:
+        CreationInfo:
+          OwnerGid: '1000'
+          OwnerUid: '1000'
+          Permissions: '0777'
+        Path: /ghost/content
+
+  MountTarget1:
+    Type: AWS::EFS::MountTarget
+    Properties:
+      FileSystemId: !Ref Disk
+      SubnetId: !Select [0, !Ref Subnets]
+      SecurityGroups: [!Ref Sg]
+
+  Db:
+    Type: AWS::RDS::DBCluster
+    DeletionPolicy: Snapshot
+    Properties:
+      DatabaseName: !Ref DatabaseName
+      DBSubnetGroupName: !Ref SubnetGroup
+      Engine: aurora
+      EngineMode: serverless
+      MasterUsername: !Ref DatabaseUser
+      MasterUserPassword: !Ref DatabasePassword
+      ScalingConfiguration:
+        AutoPause: true
+        MinCapacity: 1
+        MaxCapacity: 2
+        SecondsUntilAutoPause: 3600
+      VpcSecurityGroupIds:
+        - !Ref Sg
+
+  SubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: ghost blog subnet group
+      SubnetIds: !Ref Subnets

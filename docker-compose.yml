@@ -1,6 +1,12 @@
 version: '3.4'
 
 services:
+  deploy:
+    build:
+      context: .
+    volumes:
+    - '~/.aws:/root/.aws'
+
   ghost:
     image: ghost:3.20.1
     environment:

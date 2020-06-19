@@ -1,0 +1,12 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "serverless-ghost"
+s3_bucket = ""
+s3_prefix = "serverless-ghost"
+profile = "default"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "DomainName=\"\" Sg=\"\" Subnets=\"\""
+
