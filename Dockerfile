@@ -1,10 +1,11 @@
 FROM ghost:3.20.1 as base
 
-RUN npm install --prefix current/ aws-serverless-express
-RUN npm install --prefix current/ wait-until
-
+WORKDIR current/
 COPY package.json ./
-RUN npm install --prefix current/
+RUN npm install
+
+RUN npm install aws-serverless-express
+RUN npm install wait-until
 
 FROM python:3.8-alpine
 
