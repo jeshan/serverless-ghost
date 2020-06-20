@@ -38,6 +38,7 @@ Resources:
     Type: AWS::Serverless::Function
     DependsOn:
       - MountTarget1
+      - MountTarget2
     Properties:
       CodeUri: ./src
       Environment:
@@ -63,7 +64,7 @@ Resources:
       VpcConfig:
         SecurityGroupIds:
           - !Ref Sg
-        SubnetIds: [!Select [0, !Ref Subnets]]
+        SubnetIds: !Ref Subnets
       Timeout: 120
 
   RootPermission:
@@ -151,6 +152,13 @@ Resources:
     Properties:
       FileSystemId: !Ref Disk
       SubnetId: !Select [0, !Ref Subnets]
+      SecurityGroups: [!Ref Sg]
+
+  MountTarget2:
+    Type: AWS::EFS::MountTarget
+    Properties:
+      FileSystemId: !Ref Disk
+      SubnetId: !Select [1, !Ref Subnets]
       SecurityGroups: [!Ref Sg]
 
   Db:
