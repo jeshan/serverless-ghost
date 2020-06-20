@@ -86,6 +86,7 @@ Resources:
   Api:
     Type: AWS::Serverless::Api
     Properties:
+      BinaryMediaTypes: ['*~1*']
       DefinitionBody:
         info:
           version: '1.0'
