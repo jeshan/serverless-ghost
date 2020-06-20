@@ -1,7 +1,6 @@
 FROM ghost:3.20.1 as base
 
 WORKDIR current/
-COPY package.json ./
 RUN npm install
 
 RUN npm install aws-serverless-express
