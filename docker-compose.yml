@@ -19,8 +19,7 @@ services:
 
   smtp-password:
     build:
-      context: .
-      dockerfile: smtp.dockerfile
+      context: smtp/
     command:
       - --region
       - YOUR_SES_REGION
