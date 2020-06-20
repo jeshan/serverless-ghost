@@ -31,6 +31,7 @@ Parameters:
   Subnets:
     Type: List<AWS::EC2::Subnet::Id>
     Description: subnets where to put your RDS cluster. (Will use the first one as EFS location)
+    MinLength: 2
 
 Resources:
   Fn:
