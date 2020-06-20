@@ -1,7 +1,7 @@
 FROM ghost:3.20.1 as base
 
-RUN npm install --prefix /var/lib/ghost/versions/3.20.1/ aws-serverless-express
-RUN npm install --prefix /var/lib/ghost/versions/3.20.1/ wait-until
+RUN npm install --prefix current/ aws-serverless-express
+RUN npm install --prefix current/ wait-until
 
 COPY package.json ./
 RUN npm install --prefix current/
