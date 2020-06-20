@@ -16,3 +16,13 @@ services:
       - 80:80
       - 2368:2368
       - 4200:4200
+
+  smtp-password:
+    build:
+      context: .
+      dockerfile: smtp.dockerfile
+    command:
+      - --region
+      - YOUR_SES_REGION
+      - --secret
+      - YOUR_IAM_SECRET_ACCESS_KEY
