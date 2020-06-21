@@ -43,7 +43,7 @@ Resources:
       - MountTarget1
       - MountTarget2
     Properties:
-      CodeUri: ./src
+      CodeUri: ./src.zip
       Environment:
         Variables:
           DEBUG: '*'
@@ -119,7 +119,7 @@ Resources:
     Properties:
       CompatibleRuntimes:
         - nodejs12.x
-      ContentUri: ./node-modules
+      ContentUri: ./node-modules.zip
 
   Certificate:
     Properties:

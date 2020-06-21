@@ -8,7 +8,7 @@ RUN npm install wait-until
 
 FROM python:3.8-alpine
 
-RUN apk add --no-cache gcc musl-dev
+RUN apk add --no-cache gcc musl-dev zip
 
 ENV SAM_CLI_TELEMETRY 0
 
@@ -36,9 +36,11 @@ RUN rm -rf nodejs/node_modules/gscan/test/fixtures/ \
   find | grep tests/ | xargs rm -rf
 
 RUN mkdir node-modules && mv nodejs node-modules/
+RUN cd node-modules && zip -r ../node-modules.zip *
 
 COPY samconfig.toml template.yaml ./
 
 COPY index.js src/
+RUN cd src/ && zip -r ../src.zip *
 
 ENTRYPOINT ["sam", "deploy"]
