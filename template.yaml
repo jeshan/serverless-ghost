@@ -19,6 +19,10 @@ Parameters:
     Default: dbadmin
   DomainName:
     Type: String
+  SentryDsn:
+    Type: String
+    Description: Send errors to sentry?
+    Default: ''
   Memory:
     Type: Number
     MinValue: 1024
@@ -51,6 +55,7 @@ Resources:
           database__connection__password: !Ref DatabasePassword
           logging__level: debug
           paths__appRoot: /var/task
+          sentry__dsn: !Ref SentryDsn
           url: !Sub https://${DomainName}
       FileSystemConfigs:
         - Arn: !GetAtt ContentAp.Arn

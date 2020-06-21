@@ -8,5 +8,5 @@ s3_prefix = "serverless-ghost"
 profile = "default"
 region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "DomainName=\"\" Sg=\"\" Subnets=\"\" VpcId=\"\""
+parameter_overrides = "DomainName=\"\" SentryDsn=\"\"  Sg=\"\" Subnets=\"\" VpcId=\"\""
 
