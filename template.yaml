@@ -186,3 +186,8 @@ Resources:
     Properties:
       DBSubnetGroupDescription: ghost blog subnet group
       SubnetIds: !Ref Subnets
+
+Outputs:
+  PingUrl:
+    Value: !Sub ${DomainName}/ghost/api/v3/admin/site/
+    Description: Please hit only this url to let ghost start initialisation

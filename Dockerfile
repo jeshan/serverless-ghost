@@ -40,6 +40,5 @@ RUN mkdir node-modules && mv nodejs node-modules/
 COPY samconfig.toml template.yaml ./
 
 COPY index.js src/
-COPY locking.js src/node_modules/knex-migrator/lib/locking.js
 
 ENTRYPOINT ["sam", "deploy"]
