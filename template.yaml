@@ -185,6 +185,7 @@ Resources:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
       DBSubnetGroupDescription: ghost blog subnet group
+      DBSubnetGroupName: !Sub ${AWS::StackName}-subnet-group
       SubnetIds: !Ref Subnets
 
 Outputs:
