@@ -23,6 +23,7 @@ Parameters:
     Type: String
     Description: Send errors to sentry?
     Default: ''
+    NoEcho: true
   Memory:
     Type: Number
     MinValue: 1024
@@ -36,7 +37,7 @@ Parameters:
     NoEcho: true
   Subnets:
     Type: List<AWS::EC2::Subnet::Id>
-    Description: subnets where to put your RDS cluster. (Will use the first one as EFS location)
+    Description: private subnets where to put your RDS cluster. (Will use the first one as EFS location)
     MinLength: 2
   VpcId:
     Type: AWS::EC2::VPC::Id
