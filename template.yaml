@@ -25,13 +25,12 @@ Parameters:
     MaxValue: 3008
     Default: 1024
     Description: 1024 MB is a reasonable balance between performance and price. Less than that will result in poor cold starts.
-  Sg:
-    Type: AWS::EC2::SecurityGroup::Id
-    Description: Security group for the VPC resources
   Subnets:
     Type: List<AWS::EC2::Subnet::Id>
     Description: subnets where to put your RDS cluster. (Will use the first one as EFS location)
     MinLength: 2
+  VpcId:
+    Type: AWS::EC2::VPC::Id
 
 Resources:
   Fn:
@@ -180,6 +179,22 @@ Resources:
         SecondsUntilAutoPause: 3600
       VpcSecurityGroupIds:
         - !Ref Sg
+
+  Sg:
+    Properties:
+      GroupDescription: ghost security group
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: '-1'
+        - CidrIpv6: ::/0
+          IpProtocol: '-1'
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          IpProtocol: '-1'
+        - CidrIpv6: ::/0
+          IpProtocol: '-1'
+      VpcId: !Ref VpcId
+    Type: AWS::EC2::SecurityGroup
 
   SubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
