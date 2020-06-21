@@ -29,6 +29,11 @@ Parameters:
     MaxValue: 3008
     Default: 1024
     Description: 1024 MB is a reasonable balance between performance and price. Less than that will result in poor cold starts.
+  SesSmtpPassword:
+    Type: String
+    Default: ''
+    Description: SES secret access key. See README.md on an easy way to get it
+    NoEcho: true
   Subnets:
     Type: List<AWS::EC2::Subnet::Id>
     Description: subnets where to put your RDS cluster. (Will use the first one as EFS location)
@@ -54,6 +59,13 @@ Resources:
           database__connection__user: !Ref DatabaseUser
           database__connection__password: !Ref DatabasePassword
           logging__level: debug
+          mail__from: !Sub admin@${DomainName}
+          mail__options__auth__pass: !Ref SesSmtpPassword
+          mail__options__auth__user: !Ref AccessKey
+          mail__options__host: email-smtp.us-east-1.amazonaws.com
+          mail__options__port: 465
+          mail__options__service: SES
+          mail__transport: SMTP
           paths__appRoot: /var/task
           sentry__dsn: !Ref SentryDsn
           url: !Sub https://${DomainName}
@@ -208,7 +220,27 @@ Resources:
       DBSubnetGroupName: !Sub ${AWS::StackName}-subnet-group
       SubnetIds: !Ref Subnets
 
+  User:
+    Type: AWS::IAM::User
+    Properties:
+      Policies:
+        - PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: ses:SendRawEmail
+                Resource: '*'
+          PolicyName: ghost-send-email
+
+  AccessKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName: !Ref User
+
 Outputs:
+#  SecretAccessKey:
+#    Value: !GetAtt AccessKey.SecretAccessKey
+#    Description: Used to derive SES smtp password
   PingUrl:
     Value: !Sub https://${DomainName}/ghost/api/v3/admin/site/
     Description: Please hit only this url to let ghost start initialisation
