@@ -38,9 +38,8 @@ RUN rm -rf nodejs/node_modules/gscan/test/fixtures/ \
 RUN mkdir node-modules && mv nodejs node-modules/
 RUN cd node-modules && zip -r ../node-modules.zip *
 
-COPY samconfig.toml template.yaml ./
-
 COPY index.js src/
 RUN cd src/ && zip -r ../src.zip *
 
+COPY samconfig.toml template.yaml ./
 ENTRYPOINT ["sam", "deploy"]
