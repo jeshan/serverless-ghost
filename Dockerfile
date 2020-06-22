@@ -41,5 +41,5 @@ RUN cd node-modules && zip -r ../node-modules.zip *
 COPY index.js src/
 RUN cd src/ && zip -r ../src.zip *
 
-COPY samconfig.toml template.yaml ./
+COPY samconfig.toml vpc-privatepublic.yaml template.yaml ./
 ENTRYPOINT ["sam", "deploy"]

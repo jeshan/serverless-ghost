@@ -35,12 +35,6 @@ Parameters:
     Default: ''
     Description: SES secret access key. See README.md on an easy way to get it
     NoEcho: true
-  Subnets:
-    Type: List<AWS::EC2::Subnet::Id>
-    Description: private subnets where to put your RDS cluster. (Will use the first one as EFS location)
-    MinLength: 2
-  VpcId:
-    Type: AWS::EC2::VPC::Id
 
 Resources:
   Fn:
@@ -81,7 +75,9 @@ Resources:
       VpcConfig:
         SecurityGroupIds:
           - !Ref Sg
-        SubnetIds: !Ref Subnets
+        SubnetIds:
+          - !GetAtt Vpc.Outputs.privateSubnet1ID
+          - !GetAtt Vpc.Outputs.privateSubnet2ID
       Timeout: 120
 
   RootPermission:
@@ -169,14 +165,14 @@ Resources:
     Type: AWS::EFS::MountTarget
     Properties:
       FileSystemId: !Ref Disk
-      SubnetId: !Select [0, !Ref Subnets]
+      SubnetId: !GetAtt Vpc.Outputs.privateSubnet1ID
       SecurityGroups: [!Ref Sg]
 
   MountTarget2:
     Type: AWS::EFS::MountTarget
     Properties:
       FileSystemId: !Ref Disk
-      SubnetId: !Select [1, !Ref Subnets]
+      SubnetId: !GetAtt Vpc.Outputs.privateSubnet2ID
       SecurityGroups: [!Ref Sg]
 
   Db:
@@ -211,7 +207,7 @@ Resources:
           IpProtocol: '-1'
         - CidrIpv6: ::/0
           IpProtocol: '-1'
-      VpcId: !Ref VpcId
+      VpcId: !GetAtt Vpc.Outputs.pubPrivateVPCID
     Type: AWS::EC2::SecurityGroup
 
   SubnetGroup:
@@ -219,7 +215,9 @@ Resources:
     Properties:
       DBSubnetGroupDescription: ghost blog subnet group
       DBSubnetGroupName: !Sub ${AWS::StackName}-subnet-group
-      SubnetIds: !Ref Subnets
+      SubnetIds:
+        - !GetAtt Vpc.Outputs.privateSubnet1ID
+        - !GetAtt Vpc.Outputs.privateSubnet2ID
 
   User:
     Type: AWS::IAM::User
@@ -237,6 +235,11 @@ Resources:
     Type: AWS::IAM::AccessKey
     Properties:
       UserName: !Ref User
+
+  Vpc:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./vpc-privatepublic.yaml
 
 Outputs:
 #  SecretAccessKey:
