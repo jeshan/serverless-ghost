@@ -56,7 +56,6 @@ Parameters:
     NoEcho: true
 
 Conditions:
-  isCdn: !Equals [!Ref EnableCdn, true]
   isServerless: !Equals [!Ref InstanceClass, '']
   isNotServerless: !Not [!Equals [!Ref InstanceClass, '']]
 
@@ -95,7 +94,7 @@ Resources:
           sentry__dsn: !Ref SentryDsn
           storage__active: s3
           storage__s3__accessKeyId: !Ref AccessKey
-          storage__s3__assetHost: !If [isCdn, !Sub 'https://${Cdn.DomainName}', !Ref AWS::NoValue]
+          storage__s3__assetHost: !Sub https://${Cdn.DomainName}
           storage__s3__bucket: !Ref Bucket
           storage__s3__secretAccessKey: !GetAtt AccessKey.SecretAccessKey
           storage__s3__pathPrefix: assets
@@ -304,7 +303,6 @@ Resources:
 
   BucketPolicy:
     Type: AWS::S3::BucketPolicy
-    Condition: isCdn
     Properties:
       Bucket: !Ref Bucket
       PolicyDocument:
@@ -318,7 +316,6 @@ Resources:
 
   Cdn:
     Type: AWS::CloudFront::Distribution
-    Condition: isCdn
     Properties:
       DistributionConfig:
         DefaultCacheBehavior:
@@ -337,7 +334,6 @@ Resources:
 
   OriginAccessIdentity:
     Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
-    Condition: isCdn
     Properties:
       CloudFrontOriginAccessIdentityConfig:
         Comment: !Sub CloudFront OriginAccessIdentity for ${Bucket}
