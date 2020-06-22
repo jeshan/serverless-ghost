@@ -54,7 +54,6 @@ Resources:
           database__connection__user: !FindInMap [Constants, Values, DatabaseUser]
           database__connection__password: !Ref DatabasePassword
           logging__level: debug
-          mail__from: !Sub admin@${DomainName}
           mail__options__auth__pass: !Ref SesSmtpPassword
           mail__options__auth__user: !Ref AccessKey
           mail__options__host: email-smtp.us-east-1.amazonaws.com
@@ -102,7 +101,6 @@ Resources:
       BinaryMediaTypes: ['*~1*']
       DefinitionBody:
         info:
-          version: '1.0'
           title: !Ref AWS::StackName
         paths:
           /{proxy+}:
@@ -200,12 +198,8 @@ Resources:
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
           IpProtocol: '-1'
-        - CidrIpv6: ::/0
-          IpProtocol: '-1'
       SecurityGroupIngress:
         - CidrIp: 0.0.0.0/0
-          IpProtocol: '-1'
-        - CidrIpv6: ::/0
           IpProtocol: '-1'
       VpcId: !GetAtt Vpc.Outputs.pubPrivateVPCID
     Type: AWS::EC2::SecurityGroup
