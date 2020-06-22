@@ -85,6 +85,10 @@ Resources:
           mail__transport: SMTP
           paths__appRoot: /var/task
           sentry__dsn: !Ref SentryDsn
+          storage__active: s3
+          storage__s3__accessKeyId: !Ref AccessKey
+          storage__s3__bucket: !Ref Bucket
+          storage__s3__secretAccessKey: !GetAtt AccessKey.SecretAccessKey
           url: !Sub https://${DomainName}
       FileSystemConfigs:
         - Arn: !GetAtt ContentAp.Arn
@@ -263,11 +267,30 @@ Resources:
                 Action: ses:SendRawEmail
                 Resource: '*'
           PolicyName: ghost-send-email
+        - PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: s3:ListBucket
+                Resource: !Sub 'arn:aws:s3:::${Bucket}'
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                  - s3:GetObject
+                  - s3:PutObjectVersionAcl
+                  - s3:DeleteObject
+                  - s3:PutObjectAcl
+                Resource: !Sub 'arn:aws:s3:::${Bucket}/*'
+          PolicyName: s3-storage
 
   AccessKey:
     Type: AWS::IAM::AccessKey
     Properties:
       UserName: !Ref User
+
+  Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
 
   Vpc:
     Type: AWS::Serverless::Application

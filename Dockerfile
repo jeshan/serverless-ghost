@@ -6,6 +6,10 @@ RUN npm install
 RUN npm install aws-serverless-express
 RUN npm install wait-until
 
+RUN cd /tmp && npm install ghost-storage-adapter-s3
+
+RUN mv /tmp/node_modules/ghost-storage-adapter-s3/ core/server/adapters/storage/s3/
+
 FROM python:3.8-alpine
 
 RUN apk add --no-cache gcc musl-dev zip
