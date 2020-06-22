@@ -89,6 +89,7 @@ Resources:
           storage__s3__accessKeyId: !Ref AccessKey
           storage__s3__bucket: !Ref Bucket
           storage__s3__secretAccessKey: !GetAtt AccessKey.SecretAccessKey
+          storage__s3__pathPrefix: assets
           url: !Sub https://${DomainName}
       FileSystemConfigs:
         - Arn: !GetAtt ContentAp.Arn
