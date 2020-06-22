@@ -15,9 +15,11 @@ Parameters:
     NoEcho: true
   Memory:
     Type: Number
-    MinValue: 1024
-    MaxValue: 3008
     Default: 1024
+    AllowedValues:
+      - 1024
+      - 2048
+      - 3008
     Description: 1024 MB is a reasonable balance between performance and price. Less than that will result in poor cold starts.
   SesSmtpPassword:
     Type: String
