@@ -3,8 +3,7 @@ FROM ghost:3.20.1 as base
 WORKDIR current/
 RUN npm install
 
-RUN npm install aws-serverless-express
-RUN npm install wait-until
+RUN npm install aws-serverless-express wait-until
 
 RUN cd /tmp && npm install ghost-storage-adapter-s3
 
