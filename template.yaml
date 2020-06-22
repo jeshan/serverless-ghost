@@ -6,11 +6,13 @@ Parameters:
     Type: String
     Default: password12345
     NoEcho: true
+    Description: please set a sensible master password for the database
   DomainName:
     Type: String
+    Description: We really need one to issue an SSL cert and to allow proper routing
   SentryDsn:
     Type: String
-    Description: Send errors to sentry?
+    Description: Put your Sentry DSN for error monitoring.
     Default: ''
     NoEcho: true
   Memory:
