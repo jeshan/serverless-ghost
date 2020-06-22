@@ -17,6 +17,13 @@ Parameters:
       - false
     Default: false
     Description: Whether to use CloudFront to deliver your assets
+  EnableDebugLogs:
+    Type: String
+    AllowedValues:
+      - true
+      - false
+    Default: false
+    Description: enable debug logs?
   EnableNat:
     Type: String
     AllowedValues:
@@ -56,6 +63,7 @@ Parameters:
     NoEcho: true
 
 Conditions:
+  isDebug: !Equals [!Ref EnableDebugLogs, true]
   isServerless: !Equals [!Ref InstanceClass, '']
   isNotServerless: !Not [!Equals [!Ref InstanceClass, '']]
 
@@ -76,14 +84,14 @@ Resources:
       CodeUri: ./src.zip
       Environment:
         Variables:
-          DEBUG: '*'
+          DEBUG: !If [isDebug, '*', !Ref AWS::NoValue]
           database__client: mysql
           paths__contentPath: !FindInMap [Constants, Values, ContentPath]
           database__connection__host: !If [isServerless, !GetAtt ServerlessDb.Endpoint.Address, !GetAtt Db.Endpoint.Address]
           database__connection__database: !FindInMap [Constants, Values, DatabaseName]
           database__connection__user: !FindInMap [Constants, Values, DatabaseUser]
           database__connection__password: !Ref DatabasePassword
-          logging__level: debug
+          logging__level: !If [isDebug, debug, !Ref AWS::NoValue]
           mail__options__auth__pass: !Ref SesSmtpPassword
           mail__options__auth__user: !Ref AccessKey
           mail__options__host: email-smtp.us-east-1.amazonaws.com

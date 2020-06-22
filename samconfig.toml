@@ -8,5 +8,5 @@ s3_prefix = "serverless-ghost"
 profile = "default"
 region = "us-east-1"
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "DomainName=\"\" EnableNat=\"false\" InstanceClass=\"\" SentryDsn=\"\" SesSmtpPassword=\"\""
+parameter_overrides = "DomainName=\"\" EnableDebugLogs=\"true\" EnableNat=\"false\" InstanceClass=\"\" SentryDsn=\"\" SesSmtpPassword=\"\""
 
