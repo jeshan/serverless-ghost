@@ -1,6 +1,18 @@
 # Originally released under the terms in LICENSE-SAMPLECODE Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # https://github.com/awsdocs/aws-lambda-developer-guide/blob/master/templates/vpc-privatepublic.yaml
 AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  EnableNat:
+    Type: String
+    AllowedValues:
+      - true
+      - false
+    Default: false
+
+Conditions:
+  isEnableNat: !Equals [!Ref EnableNat, true]
+
 Resources:
   pubPrivateVPC:
     Type: AWS::EC2::VPC
@@ -78,6 +90,7 @@ Resources:
   natGateway:
     Type: AWS::EC2::NatGateway
     DependsOn: natPublicIP
+    Condition: isEnableNat
     Properties:
       AllocationId: !GetAtt natPublicIP.AllocationId
       SubnetId: !Ref publicSubnet1
@@ -92,6 +105,7 @@ Resources:
       VpcId: !Ref pubPrivateVPC
   privateRoute:
     Type: AWS::EC2::Route
+    Condition: isEnableNat
     Properties:
       RouteTableId: !Ref privateRouteTable
       DestinationCidrBlock: 0.0.0.0/0

@@ -10,6 +10,13 @@ Parameters:
   DomainName:
     Type: String
     Description: We really need one to issue an SSL cert and to allow proper routing
+  EnableNat:
+    Type: String
+    AllowedValues:
+      - true
+      - false
+    Default: false
+    Description: Create a nat gateway for outbound traffic, e.g send emails and Sentry error tracking
   SentryDsn:
     Type: String
     Description: Put your Sentry DSN for error monitoring.
@@ -234,6 +241,8 @@ Resources:
     Type: AWS::Serverless::Application
     Properties:
       Location: ./vpc-privatepublic.yaml
+      Parameters:
+        EnableNat: !Ref EnableNat
 
 Outputs:
 #  SecretAccessKey:
