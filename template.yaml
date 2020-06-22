@@ -17,6 +17,18 @@ Parameters:
       - false
     Default: false
     Description: Create a nat gateway for outbound traffic, e.g send emails and Sentry error tracking
+  InstanceClass:
+    Type: String
+    Default: ''
+    Description: leave empty to create a basic aurora serverless instance (and it's much faster to create)
+    AllowedValues:
+      - ''
+      - micro
+      - small
+      - medium
+      - large
+      - xlarge
+      - 2xlarge
   SentryDsn:
     Type: String
     Description: Put your Sentry DSN for error monitoring.
@@ -35,6 +47,10 @@ Parameters:
     Default: ''
     Description: SES secret access key. See README.md on an easy way to get it
     NoEcho: true
+
+Conditions:
+  isServerless: !Equals [!Ref InstanceClass, '']
+  isNotServerless: !Not [!Equals [!Ref InstanceClass, '']]
 
 Mappings:
   Constants:
@@ -56,7 +72,7 @@ Resources:
           DEBUG: '*'
           database__client: mysql
           paths__contentPath: !FindInMap [Constants, Values, ContentPath]
-          database__connection__host: !GetAtt Db.Endpoint.Address
+          database__connection__host: !If [isServerless, !GetAtt ServerlessDb.Endpoint.Address, !GetAtt Db.Endpoint.Address]
           database__connection__database: !FindInMap [Constants, Values, DatabaseName]
           database__connection__user: !FindInMap [Constants, Values, DatabaseUser]
           database__connection__password: !Ref DatabasePassword
@@ -180,9 +196,10 @@ Resources:
       SubnetId: !GetAtt Vpc.Outputs.privateSubnet2ID
       SecurityGroups: [!Ref Sg]
 
-  Db:
+  ServerlessDb:
     Type: AWS::RDS::DBCluster
     DeletionPolicy: Snapshot
+    Condition: isServerless
     Properties:
       DatabaseName: !FindInMap [Constants, Values, DatabaseName]
       DBSubnetGroupName: !Ref SubnetGroup
@@ -198,6 +215,21 @@ Resources:
         SecondsUntilAutoPause: 3600
       VpcSecurityGroupIds:
         - !Ref Sg
+
+  Db:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Snapshot
+    Condition: isNotServerless
+    Properties:
+      AllocatedStorage: 10
+      DBInstanceClass: !Sub db.t3.${InstanceClass}
+      DBName: !FindInMap [Constants, Values, DatabaseName]
+      DBSubnetGroupName: !Ref SubnetGroup
+      Engine: mysql
+      EngineVersion: 5.7
+      MasterUsername: !FindInMap [Constants, Values, DatabaseUser]
+      MasterUserPassword: !Ref DatabasePassword
+      VPCSecurityGroups: [!Ref Sg]
 
   Sg:
     Properties:
