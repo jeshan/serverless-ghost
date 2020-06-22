@@ -25,3 +25,13 @@ services:
       - YOUR_SES_REGION #us-east-1
       - --secret
       - YOUR_IAM_SECRET_ACCESS_KEY # from "AccessKey" stack output
+
+  static-site:
+    build:
+      context: .
+      args:
+        GHOST_HOME_PAGE: https://existing-ghost-site-home-page
+        STATIC_SITE_HOME_PAGE: https://static-site-home-page
+      dockerfile: static-site.dockerfile
+    ports:
+    - 8080:8080
