@@ -244,3 +244,6 @@ Outputs:
   PingUrl:
     Value: !Sub https://${DomainName}/ghost/api/v3/admin/site/
     Description: Please hit only this url to let ghost start initialisation
+  WebsiteDns:
+    Value: !GetAtt Api.DomainName.RegionalDomainName
+    Description: Put this value as CNAME for your domain
