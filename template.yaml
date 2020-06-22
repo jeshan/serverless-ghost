@@ -2,21 +2,10 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Parameters:
-  ContentPath:
-    Type: String
-    Default: /mnt/content
-    Description: the default is quite reasonable
-  DatabaseName:
-    Type: String
-    Default: ghost
-    Description: database to create in the rds cluster
   DatabasePassword:
     Type: String
     Default: password12345
     NoEcho: true
-  DatabaseUser:
-    Type: String
-    Default: dbadmin
   DomainName:
     Type: String
   SentryDsn:
@@ -36,6 +25,13 @@ Parameters:
     Description: SES secret access key. See README.md on an easy way to get it
     NoEcho: true
 
+Mappings:
+  Constants:
+    Values:
+      ContentPath: /mnt/content
+      DatabaseName: ghost
+      DatabaseUser: dbadmin
+
 Resources:
   Fn:
     Type: AWS::Serverless::Function
@@ -48,10 +44,10 @@ Resources:
         Variables:
           DEBUG: '*'
           database__client: mysql
-          paths__contentPath: !Ref ContentPath
+          paths__contentPath: !FindInMap [Constants, Values, ContentPath]
           database__connection__host: !GetAtt Db.Endpoint.Address
-          database__connection__database: !Ref DatabaseName
-          database__connection__user: !Ref DatabaseUser
+          database__connection__database: !FindInMap [Constants, Values, DatabaseName]
+          database__connection__user: !FindInMap [Constants, Values, DatabaseUser]
           database__connection__password: !Ref DatabasePassword
           logging__level: debug
           mail__from: !Sub admin@${DomainName}
@@ -66,7 +62,7 @@ Resources:
           url: !Sub https://${DomainName}
       FileSystemConfigs:
         - Arn: !GetAtt ContentAp.Arn
-          LocalMountPath: !Ref ContentPath
+          LocalMountPath: !FindInMap [Constants, Values, ContentPath]
       Handler: index.handler
       Layers:
         - !Ref NodeModules
@@ -179,12 +175,12 @@ Resources:
     Type: AWS::RDS::DBCluster
     DeletionPolicy: Snapshot
     Properties:
-      DatabaseName: !Ref DatabaseName
+      DatabaseName: !FindInMap [Constants, Values, DatabaseName]
       DBSubnetGroupName: !Ref SubnetGroup
       EnableHttpEndpoint: true
       Engine: aurora
       EngineMode: serverless
-      MasterUsername: !Ref DatabaseUser
+      MasterUsername: !FindInMap [Constants, Values, DatabaseUser]
       MasterUserPassword: !Ref DatabasePassword
       ScalingConfiguration:
         AutoPause: true
