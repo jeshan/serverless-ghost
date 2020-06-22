@@ -171,6 +171,7 @@ Resources:
       CompatibleRuntimes:
         - nodejs12.x
       ContentUri: ./node-modules.zip
+      RetentionPolicy: Delete
 
   Certificate:
     Properties:
@@ -224,6 +225,7 @@ Resources:
     Properties:
       DatabaseName: !FindInMap [Constants, Values, DatabaseName]
       DBSubnetGroupName: !Ref SubnetGroup
+      DeletionProtection: true
       EnableHttpEndpoint: true
       Engine: aurora
       EngineMode: serverless
