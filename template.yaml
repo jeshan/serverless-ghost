@@ -10,6 +10,13 @@ Parameters:
   DomainName:
     Type: String
     Description: We really need one to issue an SSL cert and to allow proper routing
+  EnableCdn:
+    Type: String
+    AllowedValues:
+      - true
+      - false
+    Default: false
+    Description: Whether to use CloudFront to deliver your assets
   EnableNat:
     Type: String
     AllowedValues:
@@ -49,6 +56,7 @@ Parameters:
     NoEcho: true
 
 Conditions:
+  isCdn: !Equals [!Ref EnableCdn, true]
   isServerless: !Equals [!Ref InstanceClass, '']
   isNotServerless: !Not [!Equals [!Ref InstanceClass, '']]
 
@@ -87,6 +95,7 @@ Resources:
           sentry__dsn: !Ref SentryDsn
           storage__active: s3
           storage__s3__accessKeyId: !Ref AccessKey
+          storage__s3__assetHost: !If [isCdn, !Sub 'https://${Cdn.DomainName}', !Ref AWS::NoValue]
           storage__s3__bucket: !Ref Bucket
           storage__s3__secretAccessKey: !GetAtt AccessKey.SecretAccessKey
           storage__s3__pathPrefix: assets
@@ -292,6 +301,46 @@ Resources:
   Bucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Condition: isCdn
+    Properties:
+      Bucket: !Ref Bucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: ['s3:GetObject']
+            Principal:
+              AWS: !Sub 'arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity ${OriginAccessIdentity}'
+            Resource: [!Sub '${Bucket.Arn}/assets/*']
+
+  Cdn:
+    Type: AWS::CloudFront::Distribution
+    Condition: isCdn
+    Properties:
+      DistributionConfig:
+        DefaultCacheBehavior:
+          ForwardedValues:
+            Cookies:
+              Forward: none
+            QueryString: false
+          TargetOriginId: origin1
+          ViewerProtocolPolicy: redirect-to-https
+        Enabled: true
+        Origins:
+          - DomainName: !GetAtt Bucket.RegionalDomainName
+            Id: origin1
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub origin-access-identity/cloudfront/${OriginAccessIdentity}
+
+  OriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Condition: isCdn
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: !Sub CloudFront OriginAccessIdentity for ${Bucket}
 
   Vpc:
     Type: AWS::Serverless::Application
