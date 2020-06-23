@@ -1,3 +1,35 @@
+# serverless-ghost
+
+> Finally... a professional publishing platform running on AWS Lambda
+
+# Features
+## Known to work
+> Don't expect 100% feature parity yet!
+- [x] Basic CRUD of posts and pages
+- [x] Emails
+- [x] CDN
+- [x] Integration with Sentry (though they don't really advertise it)
+- [x] Upload themes
+- [x] Upload images and assets
+
+## Additional features
+`serverless-ghost` provides a few facilities:
+- Easy deployment with Docker Compose.
+- Generate static site.
+
+## AWS integrations
+The following are made possible/easier with `serverless-ghost`:
+- Serve Ghost on your own domain (through Api Gateway).
+- Creates a VPC dedicated to your Ghost installation.
+- Free SSL certificates with Certificate Manager.
+- Send emails with Amazon SES (e.g "forgot password" and welcome emails)
+- Option to use regular Mysql or Aurora serverless
+- Filesystem to host themes and other content with Amazon EFS
+- Upload assets onto Amazon S3
+- Deliver assets via Amazon CloudFront CDN
+- Secure access to your database with VPC and tight security groups
+- Automated IAM setup for Ghost to interact with the various services
+
 # Deployment instructions
 
 ## TLDR
