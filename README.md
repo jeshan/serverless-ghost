@@ -1,6 +1,6 @@
 # serverless-ghost
 
-> Finally... a professional publishing platform running on AWS Lambda
+The [Ghost](https://ghost.org/) project ported to AWS Lambda.
 
 # Features
 ## Known to work
