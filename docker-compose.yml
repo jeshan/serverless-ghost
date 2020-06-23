@@ -9,6 +9,14 @@ services:
     volumes:
     - '~/.aws:/root/.aws'
 
+  logs:
+    build:
+      context: .
+      dockerfile: sam.dockerfile
+    command: logs -n Fn --stack-name $STACK_NAME --profile $AWS_PROFILE --tail
+    volumes:
+    - '~/.aws:/root/.aws'
+
   ghost:
     image: ghost:3.20.1
     environment:

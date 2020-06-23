@@ -98,3 +98,4 @@ Taking the above in consideration, note that:
 - If you're seeing an "internal server error" and you're seeing a ghost migration issue in the Lambda logs, then this is because the serverless function has been hit too many times while still initialising the database.
 You can work around it by running the query `update migrations_lock set locked = false, released_at = curdate();`.
 > At at now, only Aurora Serverless allows to run queries via the api/console.
+- To tail/get the Lambda logs, run `docker-compose up logs`
