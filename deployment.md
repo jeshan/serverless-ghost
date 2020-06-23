@@ -56,7 +56,7 @@ When all is done, you should be able to use the blog properly at your configured
 ## Additional deployment instructions
 > I've tried to optimise the defaults for fast stack creation and/or create cheap resources. The process is not designed to be as flexible as possible. e.g allocating specific amount of storage is not parameterised. You need to modify the [template.yaml](template.yaml) if you want more specific customisations.
 
-You can change AWS cli profile used by SAM by setting the `profile` key in `samconfig.toml`.
+To change the AWS CLI profile, edit the `AWS_PROFILE` variable in [.env](.env).
 
 ### Internet access
 You will need a NAT gateway for outbound traffic, e.g for Ghost to send forgot password emails. Since NAT gateways are expensive to run, the default here is to not create it. To do so, set the `EnableNat` parameter to be `true`. 
