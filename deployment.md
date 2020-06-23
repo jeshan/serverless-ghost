@@ -7,10 +7,6 @@ Also, [Docker Compose](https://docs.docker.com/compose/install/) is recommended 
 
 ### Orchestration
 The deployment process uses AWS SAM CLI behind the scenes.
-It needs a bucket where code artefacts and Cloudformation templates are deployed. Specify it under `s3_bucket` in [samconfig.toml](samconfig.toml).
-![](images/sam-params.png)
-
-> Otherwise, let sam create one for you as [described here](https://aws.amazon.com/blogs/compute/a-simpler-deployment-experience-with-aws-sam-cli/).
 
 `serverless-ghost` CloudFormation parameters are to be declared here:
 ![](images/config-params.png)

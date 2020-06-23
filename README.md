@@ -33,7 +33,7 @@ The following are made possible/easier with `serverless-ghost`:
 # Deployment instructions
 
 ## TLDR
-- Put your desired `DomainName` and deployment bucket `s3_bucket` in [samconfig.toml](samconfig.toml)
+- Put your desired `DomainName` in [samconfig.toml](samconfig.toml)
 - Run `docker-compose up deploy`
 - Check output for how to validate your SSL certificate.
 - Put the stack output `WebsiteDns` as CNAME in your dns settings
