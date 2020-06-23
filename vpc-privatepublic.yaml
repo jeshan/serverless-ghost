@@ -1,4 +1,4 @@
-# Originally released under the terms in LICENSE-SAMPLECODE Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# Originally released under the terms in LICENCE-SAMPLECODE Copyright 2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # https://github.com/awsdocs/aws-lambda-developer-guide/blob/master/templates/vpc-privatepublic.yaml
 AWSTemplateFormatVersion: 2010-09-09
 
