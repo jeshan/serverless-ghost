@@ -248,6 +248,7 @@ Resources:
       DBInstanceClass: !Sub db.t3.${InstanceClass}
       DBName: !FindInMap [Constants, Values, DatabaseName]
       DBSubnetGroupName: !Ref SubnetGroup
+      DeletionProtection: true
       Engine: mysql
       EngineVersion: 5.7
       MasterUsername: !FindInMap [Constants, Values, DatabaseUser]
