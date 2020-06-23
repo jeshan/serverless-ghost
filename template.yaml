@@ -117,7 +117,7 @@ Resources:
       Runtime: nodejs12.x
       VpcConfig:
         SecurityGroupIds:
-          - !Ref Sg
+          - !Ref FnSg
         SubnetIds:
           - !GetAtt Vpc.Outputs.privateSubnet1ID
           - !GetAtt Vpc.Outputs.privateSubnet2ID
@@ -209,14 +209,14 @@ Resources:
     Properties:
       FileSystemId: !Ref Disk
       SubnetId: !GetAtt Vpc.Outputs.privateSubnet1ID
-      SecurityGroups: [!Ref Sg]
+      SecurityGroups: [!Ref EfsSg]
 
   MountTarget2:
     Type: AWS::EFS::MountTarget
     Properties:
       FileSystemId: !Ref Disk
       SubnetId: !GetAtt Vpc.Outputs.privateSubnet2ID
-      SecurityGroups: [!Ref Sg]
+      SecurityGroups: [!Ref EfsSg]
 
   ServerlessDb:
     Type: AWS::RDS::DBCluster
@@ -237,7 +237,7 @@ Resources:
         MaxCapacity: 2
         SecondsUntilAutoPause: 3600
       VpcSecurityGroupIds:
-        - !Ref Sg
+        - !Ref DbSg
 
   Db:
     Type: AWS::RDS::DBInstance
@@ -252,17 +252,33 @@ Resources:
       EngineVersion: 5.7
       MasterUsername: !FindInMap [Constants, Values, DatabaseUser]
       MasterUserPassword: !Ref DatabasePassword
-      VPCSecurityGroups: [!Ref Sg]
+      VPCSecurityGroups: [!Ref DbSg]
 
-  Sg:
+  EfsSg:
     Properties:
-      GroupDescription: ghost security group
-      SecurityGroupEgress:
-        - CidrIp: 0.0.0.0/0
-          IpProtocol: '-1'
+      GroupDescription: ghost filesystem security group
       SecurityGroupIngress:
-        - CidrIp: 0.0.0.0/0
-          IpProtocol: '-1'
+        - FromPort: 2049
+          IpProtocol: tcp
+          SourceSecurityGroupId: !Ref FnSg
+          ToPort: 2049
+      VpcId: !GetAtt Vpc.Outputs.pubPrivateVPCID
+    Type: AWS::EC2::SecurityGroup
+
+  FnSg:
+    Properties:
+      GroupDescription: ghost fn security group
+      VpcId: !GetAtt Vpc.Outputs.pubPrivateVPCID
+    Type: AWS::EC2::SecurityGroup
+
+  DbSg:
+    Properties:
+      GroupDescription: ghost DB security group
+      SecurityGroupIngress:
+        - FromPort: 3306
+          IpProtocol: tcp
+          SourceSecurityGroupId: !Ref FnSg
+          ToPort: 3306
       VpcId: !GetAtt Vpc.Outputs.pubPrivateVPCID
     Type: AWS::EC2::SecurityGroup
 
