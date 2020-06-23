@@ -22,7 +22,7 @@ services:
       context: smtp/
     command:
       - --region
-      - YOUR_SES_REGION #us-east-1
+      - us-east-1
       - --secret
       - YOUR_IAM_SECRET_ACCESS_KEY # from "SecretAccessKey" stack output
 
