@@ -86,6 +86,16 @@ Other parameters to be aware of:
 
 > Feel free to edit [template.yaml](template.yaml) for more flexibility.
 
+# Caveats
+> Please remember that Ghost is [**meant to be always running**](https://forum.ghost.org/t/serverless-ghost/6318/2) so we probably won't be able to leverage all features with `serverless-ghost`. If there are any issues, please raise them.
+
+Some Ghost background processes may need to be run but are paused by Lambda when no invocations. If no invocations are coming, then it's unclear how Ghost will handle such situations.
+Taking the above in consideration, note that:
+
+- If changing themes, give it a few seconds to take effect. (I think this is how Ghost normally works anyway). You will see a "site starting up" message when accessing the website.
+- If you're seeing an "internal server error" and you're seeing a ghost migration issue in the Lambda logs, then this is because the serverless function has been hit too many times while still initialising the database.
+You can work around it by running the query `update migrations_lock set locked = false, released_at = curdate();`.
+> At at now, only Aurora Serverless allows to run queries via the api/console.
 
 # Licensing
 Custom code provided in this repository is released under the [Simplified BSD Licence](LICENCE).
