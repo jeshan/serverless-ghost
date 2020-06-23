@@ -14,7 +14,7 @@ function copyCasperTheme() {
     let source = 'content/themes/casper';
     let destination = `${process.env["paths__contentPath"]}/themes/casper`;
     console.log(`copying ${source} to ${destination}`);
-    fs.copy(source, destination);
+    fs.copySync(source, destination);
 }
 
 copyCasperTheme();
