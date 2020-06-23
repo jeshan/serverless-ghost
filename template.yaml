@@ -10,13 +10,6 @@ Parameters:
   DomainName:
     Type: String
     Description: We really need one to issue an SSL cert and to allow proper routing
-  EnableCdn:
-    Type: String
-    AllowedValues:
-      - true
-      - false
-    Default: false
-    Description: Whether to use CloudFront to deliver your assets
   EnableDebugLogs:
     Type: String
     AllowedValues:
