@@ -24,18 +24,6 @@ Parameters:
       - false
     Default: false
     Description: Create a nat gateway for outbound traffic, e.g send emails and Sentry error tracking
-  InstanceClass:
-    Type: String
-    Default: ''
-    Description: leave empty to create a basic aurora serverless instance (and it's much faster to create)
-    AllowedValues:
-      - ''
-      - micro
-      - small
-      - medium
-      - large
-      - xlarge
-      - 2xlarge
   SentryDsn:
     Type: String
     Description: Put your Sentry DSN for error monitoring.
@@ -54,11 +42,18 @@ Parameters:
     Default: ''
     Description: SES secret access key. See README.md on an easy way to get it
     NoEcho: true
+  UseServerlessDb:
+    Type: String
+    Default: true
+    Description: Aurora serverless is faster to initialise but expensive in the long run. set to false to create t3.micro instead
+    AllowedValues:
+      - true
+      - false
 
 Conditions:
   isDebug: !Equals [!Ref EnableDebugLogs, true]
-  isServerless: !Equals [!Ref InstanceClass, '']
-  isNotServerless: !Not [!Equals [!Ref InstanceClass, '']]
+  isServerless: !Equals [!Ref UseServerlessDb, true]
+  isNotServerless: !Not [!Equals [!Ref UseServerlessDb, true]]
 
 Mappings:
   Constants:
@@ -238,7 +233,7 @@ Resources:
     Condition: isNotServerless
     Properties:
       AllocatedStorage: 10
-      DBInstanceClass: !Sub db.t3.${InstanceClass}
+      DBInstanceClass: db.t3.micro
       DBName: !FindInMap [Constants, Values, DatabaseName]
       DBSubnetGroupName: !Ref SubnetGroup
       DeletionProtection: true
