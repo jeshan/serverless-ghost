@@ -24,16 +24,16 @@ services:
       context: smtp/
     command:
       - --region
-      - us-east-1
+      - $AWS_DEFAULT_REGION
       - --secret
-      - YOUR_IAM_SECRET_ACCESS_KEY # from "SecretAccessKey" stack output
+      - $YOUR_IAM_SECRET_ACCESS_KEY
 
   static-site:
     build:
       context: .
       args:
-        GHOST_HOME_PAGE: https://existing-ghost-site-home-page
-        STATIC_SITE_HOME_PAGE: https://static-site-home-page
+        GHOST_HOME_PAGE: $GHOST_HOME_PAGE
+        STATIC_SITE_HOME_PAGE: $STATIC_SITE_HOME_PAGE
       dockerfile: static-site.dockerfile
     ports:
     - 8080:8080

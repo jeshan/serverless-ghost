@@ -67,7 +67,7 @@ To enable SES, you need to provide `SesSmtpPassword`. You need to generate that 
 - Uncomment the `SecretAccessKey` [template](template.yaml) output here:
 ![](images/config-secret-access-key.png)
 - Redeploy the stack to get the said value: `docker-compose up --build deploy`
-- Paste that value in [docker-compose.yml](docker-compose.yml) here:
+- Paste that value in [.env](.env) here:
 ![](images/config-smtp-password.png)
 - Run `docker-compose up smtp-password`
 - Check the output for the smtp password:
