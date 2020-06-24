@@ -6,7 +6,7 @@ ENV SAM_CLI_TELEMETRY 0
 
 WORKDIR /app
 
-RUN pip3 install aws-sam-cli
+RUN pip3 install aws-sam-cli<1"
 
 COPY template.yaml samconfig.toml ./
 
