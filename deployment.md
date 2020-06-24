@@ -108,7 +108,7 @@ For more options, check out its home page at https://github.com/Fried-Chicken/gh
 # Caveats
 > Please remember that Ghost is [**meant to be always running**](https://forum.ghost.org/t/serverless-ghost/6318/2) so we probably won't be able to leverage all features with `serverless-ghost`. If there are any issues, please raise them.
 
-Some Ghost background processes may need to be run but are paused by Lambda when no invocations. If no invocations are coming, then it's unclear how Ghost will handle such situations.
+Some Ghost background processes may need to be run but are paused by Lambda when no invocations are occurring. If no invocations are coming, then it's unclear how Ghost will handle such situations.
 Taking the above in consideration, note that:
 
 - If changing themes, give it a few seconds to take effect. (I think this is how Ghost normally works anyway). You will see a "site starting up" message when accessing the website.
