@@ -246,6 +246,9 @@ Resources:
         MinCapacity: 1
         MaxCapacity: 2
         SecondsUntilAutoPause: 3600
+      Tags:
+        - Key: Project
+          Value: !Ref AWS::StackName
       VpcSecurityGroupIds:
         - !Ref DbSg
 
@@ -263,6 +266,9 @@ Resources:
       EngineVersion: 5.7
       MasterUsername: !FindInMap [Constants, Values, DatabaseUser]
       MasterUserPassword: !Ref DatabasePassword
+      Tags:
+        - Key: Project
+          Value: !Ref AWS::StackName
       VPCSecurityGroups: [!Ref DbSg]
 
   EfsSg:
