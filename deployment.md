@@ -76,8 +76,9 @@ To enable SES, you need to provide `SesSmtpPassword`. You need to generate that 
 ![](images/config-params.png)
 - Redeploy the stack so that Ghost can get the password: `docker-compose up --build deploy`
 
+> If for some reason you can't use the above procedure, consult the AWS docs about [Obtaining Your Amazon SES SMTP Credentials](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/smtp-credentials.html).
 
-Other parameters to be aware of:
+### Other parameters
 - `DatabasePassword`: Ghost will use this master user's password in the current setup to simplify deployment. Please set a more reasonable one than the default!
 - `EnableDebugLogs`: ensure it's true so that you can attach the logs when investigating issues.
 - `SentryDsn`: If you like to [use Sentry](https://sentry.io/welcome) for error monitoring, provide the DSN from a Sentry project.
@@ -106,6 +107,7 @@ Some Ghost background processes may need to be run but are paused by Lambda when
 Taking the above in consideration, note that:
 
 - If changing themes, give it a few seconds to take effect. (I think this is how Ghost normally works anyway). You will see a "site starting up" message when accessing the website.
+- If you see an error "Knex: Timeout acquiring a connection. The pool is probably full. Are you missing a .transacting(trx) call?" when the database has just booted, a workaround is force Lambda to recreate a container by e.g updating the function configuration.
 - If you're seeing an "internal server error" and you're seeing a ghost migration issue in the Lambda logs, then this is because the serverless function has been hit too many times while still initialising the database.
 You can work around it by running the query `update migrations_lock set locked = false, released_at = curdate();`.
 > At at now, only Aurora Serverless allows to run queries via the api/console.
