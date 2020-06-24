@@ -34,10 +34,10 @@ RUN rm -rf nodejs/node_modules/gscan/test/fixtures/ \
   find | grep tests/ | xargs rm -rf
 
 RUN mkdir node-modules && mv nodejs node-modules/
-RUN cd node-modules && zip -r ../node-modules.zip *
+RUN cd node-modules && zip -qr ../node-modules.zip *
 
 COPY index.js src/
-RUN cd src/ && zip -r ../src.zip *
+RUN cd src/ && zip -qr ../src.zip *
 
 COPY scripts scripts
 COPY samconfig.toml vpc-privatepublic.yaml template.yaml ./
