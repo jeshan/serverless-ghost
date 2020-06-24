@@ -126,3 +126,7 @@ Taking the above in consideration, note that:
 You can work around it by running the query `update migrations_lock set locked = false, released_at = curdate();`.
 > As at now, only Aurora Serverless allows to run queries via the api/console.
 - To tail/get the Lambda logs, run `docker-compose up logs`
+
+# Releasing
+- To release this project, i.e putting the templates on S3: `docker-compose up --build release`
+- Tag master branch on GitHub
