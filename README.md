@@ -14,8 +14,9 @@ The [Ghost](https://ghost.org/) project ported to AWS Lambda.
 
 ## Additional features
 `serverless-ghost` provides a few facilities:
-- Easy deployment with Docker Compose.
-- Generate static site.
+- Secure [VPC](vpc-privatepublic.yaml) creation.
+- Easy [deployment](deployment.md) with Docker Compose.
+- Generate a [static site](deployment.md#static-site) for it.
 
 ## AWS integrations
 The following are made possible/easier with `serverless-ghost`:
