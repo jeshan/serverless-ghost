@@ -1,6 +1,28 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: The required parameters
+        Parameters:
+          - DomainName
+      - Label:
+          default: Step 2
+        Parameters:
+          - SesSmtpPassword
+      - Label:
+          default: Parameters that are useful for debugging
+        Parameters:
+          - EnableDebugLogs
+          - SentryDsn
+    ParameterLabels:
+      DomainName:
+        default: Domain name on which Ghost will be available
+      SesSmtpPassword:
+        default: Amazon SES SMTP password
+
 Parameters:
   DatabasePassword:
     Type: String
@@ -16,7 +38,7 @@ Parameters:
       - true
       - false
     Default: false
-    Description: enable debug logs?
+    Description: enable debug logs on the serverless function?
   EnableNat:
     Type: String
     AllowedValues:
