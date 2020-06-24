@@ -1,6 +1,8 @@
 # serverless-ghost
 
-The [Ghost](https://ghost.org/) project ported to AWS Lambda.
+> The [Ghost](https://ghost.org/) project ported to AWS Lambda.
+
+`serverless-ghost` is the easiest way to get a professional blogging platform running (mostly) on serverless technologies on AWS.
 
 # Features
 ## Known to work
