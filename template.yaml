@@ -72,14 +72,14 @@ Resources:
       CodeUri: ./src.zip
       Environment:
         Variables:
-          DEBUG: !If [isDebug, '*', !Ref AWS::NoValue]
+          DEBUG: !If [isDebug, '*', !Ref 'AWS::NoValue']
           database__client: mysql
           paths__contentPath: !FindInMap [Constants, Values, ContentPath]
           database__connection__host: !If [isServerless, !GetAtt ServerlessDb.Endpoint.Address, !GetAtt Db.Endpoint.Address]
           database__connection__database: !FindInMap [Constants, Values, DatabaseName]
           database__connection__user: !FindInMap [Constants, Values, DatabaseUser]
           database__connection__password: !Ref DatabasePassword
-          logging__level: !If [isDebug, debug, !Ref AWS::NoValue]
+          logging__level: !If [isDebug, debug, !Ref 'AWS::NoValue']
           mail__options__auth__pass: !Ref SesSmtpPassword
           mail__options__auth__user: !Ref AccessKey
           mail__options__host: email-smtp.us-east-1.amazonaws.com
