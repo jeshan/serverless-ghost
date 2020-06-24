@@ -38,10 +38,9 @@ services:
 
   static-site:
     build:
-      context: .
+      context: static-site
       args:
         GHOST_HOME_PAGE: $GHOST_HOME_PAGE
         STATIC_SITE_HOME_PAGE: $STATIC_SITE_HOME_PAGE
-      dockerfile: static-site.dockerfile
     ports:
     - 8080:8080
