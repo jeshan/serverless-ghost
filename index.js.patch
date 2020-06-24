@@ -1,0 +1,85 @@
+Index: index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- index.js	(date 1592992299078)
++++ index.js	(date 1592992299078)
+@@ -7,7 +7,17 @@
+ const sentry = require('./core/shared/sentry');
+ 
+ debug('First requires...');
++const waitUntil = require('wait-until');
++const fs = require('fs-extra')
+ 
++function copyCasperTheme() {
++    let source = 'content/themes/casper';
++    let destination = `${process.env["paths__contentPath"]}/themes/casper`;
++    console.log(`copying ${source} to ${destination}`);
++    fs.copySync(source, destination);
++}
++
++copyCasperTheme();
+ const ghost = require('./core');
+ 
+ debug('Required ghost');
+@@ -24,6 +34,7 @@
+ 
+ debug('Initialising Ghost');
+ 
++let started = false;
+ ghost().then(function (ghostServer) {
+     // Mount our Ghost instance on our desired subdirectory path if it exists.
+     ghostApp.use(urlService.utils.getSubdir(), ghostServer.rootApp);
+@@ -33,6 +44,7 @@
+     return ghostServer.start(ghostApp)
+         .then(function afterStart() {
+             logging.info('Ghost boot', (Date.now() - startTime) / 1000 + 's');
++            started = true;
+         });
+ }).catch(function (err) {
+     logging.error(err);
+@@ -40,3 +52,43 @@
+         process.exit(-1);
+     }, 100);
+ });
++const binaryMimeTypes = [
++    'application/javascript',
++    'application/json',
++    'application/octet-stream',
++    'application/xml',
++    'font/eot',
++    'font/opentype',
++    'font/otf',
++    'image/jpeg',
++    'image/png',
++    'image/svg+xml',
++    'image/x-icon',
++    'text/comma-separated-values',
++    'text/css',
++    'text/html',
++    'text/javascript',
++    'text/plain',
++    'text/text',
++    'text/xml'
++];
++const awsServerlessExpress = require('aws-serverless-express');
++let server = awsServerlessExpress.createServer(ghostApp, null, binaryMimeTypes);
++
++exports.handler = (event, context) => {
++    let fulfilRequest = () => {
++        context.callbackWaitsForEmptyEventLoop = false;
++        return awsServerlessExpress.proxy(server, event, context);
++    };
++    if (started) {
++        return fulfilRequest();
++    }
++    // Site is starting up, waiting a second then retry.
++    waitUntil()
++        .interval(1000)
++        .times(Infinity)
++        .condition(() => {
++            return started;
++        })
++        .done(fulfilRequest);
++}

@@ -11,7 +11,7 @@ RUN mv /tmp/node_modules/ghost-storage-adapter-s3/ core/server/adapters/storage/
 
 FROM python:3.8-alpine
 
-RUN apk add --no-cache gcc musl-dev zip
+RUN apk add --no-cache gcc musl-dev patch zip
 
 ENV SAM_CLI_TELEMETRY 0
 
@@ -36,7 +36,8 @@ RUN rm -rf nodejs/node_modules/gscan/test/fixtures/ \
 RUN mkdir node-modules && mv nodejs node-modules/
 RUN cd node-modules && zip -qr ../node-modules.zip *
 
-COPY index.js src/
+COPY index.js.patch .
+RUN patch src/index.js index.js.patch
 RUN cd src/ && zip -qr ../src.zip *
 
 COPY scripts scripts
