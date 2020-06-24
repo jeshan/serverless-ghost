@@ -42,4 +42,4 @@ RUN cd src/ && zip -qr ../src.zip *
 
 COPY scripts scripts
 COPY samconfig.toml vpc-privatepublic.yaml template.yaml ./
-ENTRYPOINT ["scripts/sam.sh"]
+ENTRYPOINT ["scripts/sam-deploy.sh"]
