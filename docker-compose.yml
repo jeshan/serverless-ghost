@@ -27,6 +27,13 @@ services:
       - 2368:2368
       - 4200:4200
 
+  release:
+    build:
+      context: .
+    entrypoint: scripts/sam-release.sh
+    volumes:
+      - '~/.aws:/root/.aws'
+
   smtp-password:
     build:
       context: smtp/

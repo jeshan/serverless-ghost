@@ -17,7 +17,7 @@ ENV SAM_CLI_TELEMETRY 0
 
 WORKDIR /app
 
-RUN pip3 install "aws-sam-cli<1"
+RUN pip3 install "aws-sam-cli<1" awscli
 
 COPY --from=base /var/lib/ghost/versions/3.20.1/ src
 

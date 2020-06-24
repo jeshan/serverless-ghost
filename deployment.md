@@ -1,7 +1,7 @@
 `serverless-ghost` essentially runs as a monolith on a single Lambda function (aka "Lambdalith" :grimacing: )
 
 ### First things first
-You really need [Docker](https://docs.docker.com/get-docker/) to deploy this project. This is because Ghost release versions are already available as Docker images, relieving us of maintaining a separate fork for it in this repository. Here, we can just take its contents and package the Lambda code out of it.
+You need [Docker](https://docs.docker.com/get-docker/) to package and deploy this project. This is because Ghost release versions are already available as Docker images, relieving us of maintaining a separate fork for it in this repository. Here, we can just take its contents and package the Lambda code out of it.
 
 Also, [Docker Compose](https://docs.docker.com/compose/install/) is recommended to make some commands a bit simpler.
 
