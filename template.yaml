@@ -244,7 +244,7 @@ Resources:
       ScalingConfiguration:
         AutoPause: true
         MinCapacity: 1
-        MaxCapacity: 2
+        MaxCapacity: 1
         SecondsUntilAutoPause: 3600
       Tags:
         - Key: Project
