@@ -66,6 +66,7 @@ You will need a NAT gateway for outbound traffic, e.g for Ghost to send forgot p
 `serverless-ghost` provides out-of-the-box support for email (only) via Amazon SES.
 To enable SES, you need to provide `SesSmtpPassword`. You need to generate that password from the created IAM user's secret access key.
 - Uncomment the `SecretAccessKey` [template](template.yaml) output here:
+
 ![](images/config-secret-access-key.png)
 - Redeploy the stack to get the said value: `docker-compose up --build deploy`
 - Paste that value in [.env](.env) here:
@@ -73,8 +74,10 @@ To enable SES, you need to provide `SesSmtpPassword`. You need to generate that 
 ![](images/config-smtp-password.png)
 - Run `docker-compose up smtp-password`
 - Check the output for the smtp password:
+
 ![](images/config-smtp-password-output.png)
 - Put this value as `SesSmtpPassword` parameter
+
 ![](images/config-params.png)
 - Redeploy the stack so that Ghost can get the password: `docker-compose up --build deploy`
 
@@ -98,7 +101,7 @@ Set your ghost home page and new static site home page in [.env](.env) as shown 
 
 ![](images/config-static-site.png)
 
-You can easily do this for your site by running `docker-compose up --build static-site`. This will generate a folder with the static website contents in the docker container and serve it at http://localhost:8080
+You can easily do this for your site by running `docker-compose up static-site`. This will generate a folder with the static website contents in the docker container and serve it at http://localhost:8080
 
 For more options, check out its home page at https://github.com/Fried-Chicken/ghost-static-site-generator .
 
