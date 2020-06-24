@@ -62,7 +62,7 @@ Parameters:
   SesSmtpPassword:
     Type: String
     Default: ''
-    Description: SES secret access key. See README.md on an easy way to get it
+    Description: SES secret access key. See deployment.md on an easy way to get it after stack is created
     NoEcho: true
   UseServerlessDb:
     Type: String
