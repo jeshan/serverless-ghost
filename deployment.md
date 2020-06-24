@@ -88,6 +88,17 @@ Other parameters to be aware of:
 
 Deployment tested in us-east-1. Let me know if otherwise there are any issues.
 
+### Additional features
+#### Static site
+You can generate a static site out of your Ghost site with a project like [ghost-static-site-generator](https://github.com/Fried-Chicken/ghost-static-site-generator).
+Set your ghost home page and new static site home page in [.env](.env) as shown here:
+
+![](images/config-static-site.png)
+
+You can easily do this for your site by running `docker-compose up --build static-site`. This will generate a folder with the static website contents in the docker container and serve it at http://localhost:8080
+
+For more options, check out its home page at https://github.com/Fried-Chicken/ghost-static-site-generator .
+
 # Caveats
 > Please remember that Ghost is [**meant to be always running**](https://forum.ghost.org/t/serverless-ghost/6318/2) so we probably won't be able to leverage all features with `serverless-ghost`. If there are any issues, please raise them.
 
