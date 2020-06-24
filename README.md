@@ -11,9 +11,11 @@ The [Ghost](https://ghost.org/) project ported to AWS Lambda.
 - [x] Integration with Sentry (though they don't really advertise it)
 - [x] Upload themes
 - [x] Upload images and assets
+- [x] Api keys
 
 ## Untested
-- [ ] Api keys
+> They _may_ work.
+
 - [ ] Webhooks
 - [ ] Newsletters 
 - [ ] Update new versions of Ghost (but it _should_ work) 
