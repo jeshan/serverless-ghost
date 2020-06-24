@@ -6,11 +6,7 @@ RUN npm i -g ghost-static-site-generator live-server
 
 ENTRYPOINT ["gssg"]
 
-ARG GHOST_HOME_PAGE=$GHOST_HOME_PAGE
-ARG STATIC_SITE_HOME_PAGE=$STATIC_SITE_HOME_PAGE
+WORKDIR /app
+COPY run.sh .
 
-RUN gssg --domain $GHOST_HOME_PAGE --url $STATIC_SITE_HOME_PAGE
-
-WORKDIR static/
-
-ENTRYPOINT ["live-server"]
+ENTRYPOINT ["./run.sh"]

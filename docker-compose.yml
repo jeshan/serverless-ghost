@@ -39,8 +39,8 @@ services:
   static-site:
     build:
       context: static-site
-      args:
-        GHOST_HOME_PAGE: $GHOST_HOME_PAGE
-        STATIC_SITE_HOME_PAGE: $STATIC_SITE_HOME_PAGE
+    env_file:
+      - .env
+    network_mode: host
     ports:
     - 8080:8080
