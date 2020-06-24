@@ -30,6 +30,15 @@ This should go smoothly assuming you have the proper permissions. This process w
 - An IAM access key for a new user
 > It will be used by S3 and SES.
 
+We could visualise the deployment stack as follows:
+
+![](images/main-stack.png)
+
+It contains a nested stack for the VPC which looks something like:
+
+![](images/vpc-stack.png)
+
+
 It will also create a CloudFront distribution and do many other things, including configure Ghost to use the various AWS services.
 
 The first deployment should be doable within 10 minutes. After deployment, you will see the DNS record that you need to put for the installation to be accessible:

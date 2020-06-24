@@ -51,6 +51,10 @@ The following are made possible/easier with `serverless-ghost`:
 - Hit the `PingUrl` given in the stack output
 - Access the blog at `https://${DomainName}`
 
+This is what will get deployed:
+
+![](images/main-stack.png)
+
 ## The details
 I expanded on the above in the [deployment.md](deployment.md) file. There are explanations, screenshots and documented issues there. Please read through it to make the most out of this project.
 
