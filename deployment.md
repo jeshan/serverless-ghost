@@ -33,6 +33,7 @@ This should go smoothly assuming you have the proper permissions. This process w
 It will also create a CloudFront distribution and do many other things, including configure Ghost to use the various AWS services.
 
 The first deployment should be doable within 10 minutes. After deployment, you will see the DNS record that you need to put for the installation to be accessible:
+
 ![](images/install-cname.png)
 
 Put this for the domain at your registrar:
@@ -68,6 +69,7 @@ To enable SES, you need to provide `SesSmtpPassword`. You need to generate that 
 ![](images/config-secret-access-key.png)
 - Redeploy the stack to get the said value: `docker-compose up --build deploy`
 - Paste that value in [.env](.env) here:
+
 ![](images/config-smtp-password.png)
 - Run `docker-compose up smtp-password`
 - Check the output for the smtp password:
@@ -110,5 +112,5 @@ Taking the above in consideration, note that:
 - If you see an error "Knex: Timeout acquiring a connection. The pool is probably full. Are you missing a .transacting(trx) call?" when the database has just booted, a workaround is force Lambda to recreate a container by e.g updating the function configuration.
 - If you're seeing an "internal server error" and you're seeing a ghost migration issue in the Lambda logs, then this is because the serverless function has been hit too many times while still initialising the database.
 You can work around it by running the query `update migrations_lock set locked = false, released_at = curdate();`.
-> At at now, only Aurora Serverless allows to run queries via the api/console.
+> As at now, only Aurora Serverless allows to run queries via the api/console.
 - To tail/get the Lambda logs, run `docker-compose up logs`
