@@ -12,6 +12,12 @@ The [Ghost](https://ghost.org/) project ported to AWS Lambda.
 - [x] Upload themes
 - [x] Upload images and assets
 
+## Untested
+- [ ] Api keys
+- [ ] Webhooks
+- [ ] Newsletters 
+- [ ] Update new versions of Ghost (but it _should_ work) 
+
 ## Additional features
 `serverless-ghost` provides a few facilities:
 - Secure [VPC](vpc-privatepublic.yaml) creation.
