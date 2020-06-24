@@ -44,8 +44,8 @@ The following are made possible/easier with `serverless-ghost`:
 # Deployment instructions
 
 ## TLDR
-- Put your desired `DomainName` in [samconfig.toml](samconfig.toml)
-- Launch stack: <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://s3.amazonaws.com/jeshan-oss-public-files/serverless-ghost/template.yaml&stackName=serverless-ghost" target="_blank"><img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"></a> 
+- Click Launch stack: <a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/review?templateURL=https://s3.amazonaws.com/jeshan-oss-public-files/serverless-ghost/template.yaml&stackName=serverless-ghost" target="_blank"><img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"></a> 
+- Declare your desired `DomainName` stack parameter.
 - Check output for how to validate your SSL certificate.
 - Put the stack output `WebsiteDns` as CNAME in your dns settings
 - Hit the `PingUrl` given in the stack output
