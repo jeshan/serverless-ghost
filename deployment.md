@@ -130,6 +130,11 @@ You can work around it by running the query `update migrations_lock set locked =
 > As at now, only Aurora Serverless allows to run queries via the api/console.
 - To tail/get the Lambda logs, run `docker-compose up logs`
 
+# TODO
+- Secure secrets
+- Find a way to not require NAT gateways
+- EFS is required for upload themes to work. Investigate if it will be possible to replace EFS with S3 "filesystems" like [s3fs-fuse](https://github.com/s3fs-fuse/s3fs-fuse).
+
 # Releasing
 - Set the version number in the "deploy stack" link in the README
 - Set the version number in `release` service in docker-compose.yml
