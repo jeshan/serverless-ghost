@@ -89,7 +89,6 @@ Resources:
       RouteTableId: !Ref publicRouteTable
   natGateway:
     Type: AWS::EC2::NatGateway
-    DependsOn: natPublicIP
     Condition: isEnableNat
     Properties:
       AllocationId: !GetAtt natPublicIP.AllocationId
