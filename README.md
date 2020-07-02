@@ -4,6 +4,8 @@
 
 `serverless-ghost` is the easiest way to get a professional blogging platform running (mostly) on serverless technologies on AWS.
 
+> Caution: Beta software, here be dragons!
+
 # Features
 ## Known to work
 > Don't expect 100% feature parity yet!
