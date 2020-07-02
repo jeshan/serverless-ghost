@@ -60,6 +60,9 @@ This is what will get deployed:
 ## The details
 I expanded on the above in the [deployment.md](deployment.md) file. There are explanations, screenshots and documented issues there. Please read through it to make the most out of this project.
 
+## Non-goals
+Making Ghost cloud-native or any form of re-architecting is out of scope. However, we do want to leverage AWS integrations where sensible as long as maintaining a separate fork is not required.
+
 # Licensing
 Custom code provided in this repository is released under the [Simplified BSD Licence](LICENCE).
 
