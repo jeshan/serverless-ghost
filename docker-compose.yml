@@ -31,6 +31,8 @@ services:
     build:
       context: .
     entrypoint: scripts/sam-release.sh
+    environment:
+      VERSION: 0.1
     volumes:
       - '~/.aws:/root/.aws'
 

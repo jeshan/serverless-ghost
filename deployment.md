@@ -131,5 +131,8 @@ You can work around it by running the query `update migrations_lock set locked =
 - To tail/get the Lambda logs, run `docker-compose up logs`
 
 # Releasing
-- To release this project, i.e putting the templates on S3: `docker-compose up --build release`
-- Tag master branch on GitHub
+- Set the version number in the "deploy stack" link in the README
+- Set the version number in `release` service in docker-compose.yml
+- Put the templates on S3 by running: `docker-compose up --build release`
+- git push
+- Tag master branch with version on GitHub

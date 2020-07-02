@@ -2,7 +2,7 @@
 set -ex
 
 bucket=jeshan-oss-public-files
-prefix=serverless-ghost
+prefix=serverless-ghost/${VERSION:-master}
 output_file=template-packaged.yaml
 
 sam package --profile jeshanco --s3-bucket ${bucket} --region us-east-1 --s3-prefix ${prefix} --output-template-file ${output_file}
