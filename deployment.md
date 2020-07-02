@@ -69,7 +69,7 @@ When all is done, you should be able to use the blog properly at your configured
 To change the AWS CLI profile, edit the `AWS_PROFILE` variable in [.env](.env).
 
 ### Internet access
-You will need a NAT gateway for outbound traffic, e.g for Ghost to send forgot password emails. Since NAT gateways are expensive to run, the default here is to not create it. To do so, set the `EnableNat` parameter to be `true`. 
+You will need a NAT gateway for outbound traffic, e.g for Ghost to send forgot password emails, parsing youtube api when you embed their videos. Since NAT gateways are expensive to run, the default here is to not create it. To do so, set the `EnableNat` parameter to be `true`. 
 
 ### Emails
 `serverless-ghost` provides out-of-the-box support for email (only) via Amazon SES.
@@ -115,13 +115,16 @@ You can easily do this for your site by running `docker-compose up static-site`.
 For more options, check out its home page at https://github.com/Fried-Chicken/ghost-static-site-generator .
 
 # Caveats
-> Please remember that Ghost is [**meant to be always running**](https://forum.ghost.org/t/serverless-ghost/6318/2) so we probably won't be able to leverage all features with `serverless-ghost`. If there are any issues, please raise them.
+> Please remember that Ghost is [**meant to be always running**](https://forum.ghost.org/t/serverless-ghost/6318/2) so we probably won't be able to leverage all features with `serverless-ghost`. If there are any issues, please raise them and we'll see what we can do.
 
 Some Ghost background processes may need to be run but are paused by Lambda when no invocations are occurring. If no invocations are coming, then it's unclear how Ghost will handle such situations.
+Also, keep in mind that requests may be hitting different Lambda containers, and I believe high-availability setup of Ghost isn't supported.
 Taking the above in consideration, note that:
 
+- If both DB and lambda is cold starting, the requests will time out the first few times. give it a minute or 2 then retry.
 - If changing themes, give it a few seconds to take effect. (I think this is how Ghost normally works anyway). You will see a "site starting up" message when accessing the website.
 - If you see an error "Knex: Timeout acquiring a connection. The pool is probably full. Are you missing a .transacting(trx) call?" when the database has just booted, a workaround is force Lambda to recreate a container by e.g updating the function configuration.
+- Having performance issues? set Lambda memory size to at least 1024M
 - If you're seeing an "internal server error" and you're seeing a ghost migration issue in the Lambda logs, then this is because the serverless function has been hit too many times while still initialising the database.
 You can work around it by running the query `update migrations_lock set locked = false, released_at = curdate();`.
 > As at now, only Aurora Serverless allows to run queries via the api/console.
