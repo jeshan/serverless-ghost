@@ -55,6 +55,8 @@ Parameters:
     Type: Number
     Default: 1024
     AllowedValues:
+      - 256
+      - 512
       - 1024
       - 2048
       - 3008
