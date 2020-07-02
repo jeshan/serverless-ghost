@@ -96,6 +96,7 @@ Resources:
       SubnetId: !Ref publicSubnet1
   natPublicIP:
     Type: AWS::EC2::EIP
+    Condition: isEnableNat
     DependsOn: pubPrivateVPC
     Properties:
       Domain: vpc
