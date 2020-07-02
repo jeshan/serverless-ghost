@@ -39,7 +39,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
          });
  }).catch(function (err) {
      logging.error(err);
-@@ -40,3 +52,43 @@
+@@ -40,3 +52,44 @@
          process.exit(-1);
      }, 100);
  });
@@ -48,6 +48,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 +    'application/json',
 +    'application/octet-stream',
 +    'application/xml',
++    'application/zip',
 +    'font/eot',
 +    'font/opentype',
 +    'font/otf',
