@@ -57,6 +57,8 @@ This is what will get deployed:
 
 ![](images/main-stack.png)
 
+*Image automatically generated with [cfnbuddy](https://www.cfnbuddy.com)*
+
 ## The details
 I expanded on the above in the [deployment.md](deployment.md) file. There are explanations, screenshots and documented issues there. Please read through it to make the most out of this project.
 
